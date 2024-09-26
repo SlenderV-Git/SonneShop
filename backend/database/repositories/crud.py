@@ -21,7 +21,7 @@ class CrudRepository(AbstractCrudRepository):
             offset: int | None = None, 
             limit: int | None = None
         ) -> Sequence[ModelType] | None:
-        stmt = select(self.model).where(*args).offset
+        stmt = select(self.model).where(*args).offset(offset).limit(limit)
         return (await self._session.execute(stmt)).scalars().all()
     
     async def insert(self, **kwargs: Mapping[str, Any]) -> ModelType | None:
