@@ -16,17 +16,21 @@ def faker():
     return fake
 
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
-async def gateway():
+async def session():
     engine = create_engine('sqlite+aiosqlite:///example.db')
     session = create_async_session_maker(engine)
-    db_factory = create_database_factory(TransactionManager, session)
-
-    gateway = db_factory()
-
+    
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
         await conn.commit()
     
+    return session
+
+@pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
+async def gateway(session):
+    db_factory = create_database_factory(TransactionManager, session)
+    gateway = db_factory()
+
     async with gateway:
         await gateway.manager.create_transaction()
         

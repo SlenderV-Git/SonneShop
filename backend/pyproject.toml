@@ -11,6 +11,9 @@ sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
 fastapi = "^0.115.0"
 pydantic-settings = "^2.5.2"
 pydantic = {extras = ["email"], version = "^2.9.2"}
+pyjwt = "^2.9.0"
+passlib = "^1.7.4"
+redis = "^5.0.8"
 
 
 [tool.poetry.group.dev.dependencies]
