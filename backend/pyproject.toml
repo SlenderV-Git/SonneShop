@@ -10,9 +10,13 @@ python = "^3.11"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
 fastapi = "^0.115.0"
 pydantic-settings = "^2.5.2"
-aiosqlite = "^0.20.0"
 pydantic = {extras = ["email"], version = "^2.9.2"}
 
+
+[tool.poetry.group.dev.dependencies]
+aiosqlite = "^0.20.0"
+pytest = "^8.3.3"
+pytest-asyncio = "^0.24.0"
 
 [build-system]
 requires = ["poetry-core"]
