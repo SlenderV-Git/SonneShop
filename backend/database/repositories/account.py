@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, Type, Sequence
 import uuid
 
 from backend.database.models import AccountModel
@@ -16,7 +16,7 @@ class AccountRepository(BaseRepository):
         return await self._crud.insert(user_id = user_id)
     
 
-    async def get_all(self, user_id: uuid.UUID) -> Optional[AccountModel]:
+    async def get_all(self, user_id: uuid.UUID) -> Optional[Sequence[AccountModel]]:
         condition = self.model.user_id == user_id
         
         return await self._crud.select_many(condition)
