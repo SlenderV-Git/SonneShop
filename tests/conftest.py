@@ -1,10 +1,19 @@
+import pytest
 import pytest_asyncio
+from faker import Faker
+from faker.providers import internet
 
 from backend.database.core.connection import create_async_session_maker, create_engine
 from backend.database.core.manager import TransactionManager
 from backend.database.factory import create_database_factory
 from backend.database.models.base.core import Base
 
+
+@pytest.fixture(autouse=True, scope="session")
+def faker():
+    fake = Faker()
+    fake.add_provider(internet)
+    return fake
 
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
 async def gateway():
