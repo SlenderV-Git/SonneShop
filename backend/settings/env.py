@@ -7,7 +7,7 @@ from sqlalchemy import URL
 
 
 def get_root_dir_path() -> Path:
-    return Path(__file__).resolve().parent.parent.parent.parent
+    return Path(__file__).resolve().parent.parent.parent
 
 
 class DatabaseSettings(BaseSettings):
@@ -48,8 +48,8 @@ class DatabaseSettings(BaseSettings):
 
 
 class JWTSettings:
-    private_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt-private.pem").read_text()
-    public_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt-public.pem").read_text()
+    private_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt_private.pem").read_text()
+    public_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt_public.pem").read_text()
     algorithm: Final[str] = 'RS256'
     jwt_expiration: Final[int] = 30
 
