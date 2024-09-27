@@ -13,4 +13,4 @@ class UserModel(ModelWithIDMixin, ModelWithTimeMixin, Base):
     password: Mapped[str] = mapped_column(nullable=False)
     is_superuser: Mapped[bool] = mapped_column(nullable=False, default=False)
     
-    accounts : Mapped[List["AccountModel"]] = relationship(back_populates='user') # type: ignore
+    accounts : Mapped[List["AccountModel"]] = relationship(back_populates='user') # type: ignore  # noqa: F821

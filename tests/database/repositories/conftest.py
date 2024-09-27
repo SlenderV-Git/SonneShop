@@ -20,3 +20,5 @@ async def user(gateway: DBGateway, user_dto : UserSchema):
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
 async def accounts(gateway: DBGateway, user : UserModel):
     return [await gateway.account().create(user.id) for _ in range(3)]
+
+
