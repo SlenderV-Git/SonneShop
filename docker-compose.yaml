@@ -18,7 +18,7 @@ services:
       - db-service
 
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/backend-service/health/live"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/backend-service/api/v1/healthcheck"]
       interval: 30s
       timeout: 20s
       retries: 3
@@ -38,7 +38,7 @@ services:
       - ./backend.env
     ports:
       - 127.0.0.1:5432:5432
-      
+
   redis:
     image: redis:latest
     container_name: redis
