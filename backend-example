@@ -6,3 +6,6 @@ POSTGRES_DB='db_name'
 
 REDIS_HOST='redis'
 REDIS_PORT=6379
+REDIS_PASSWORD='redis_password'
+REDIS_USER='redis_user'
+REDIS_USER_PASSWORD='redis_user_password'
