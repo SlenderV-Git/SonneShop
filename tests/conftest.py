@@ -15,16 +15,18 @@ def faker():
     fake.add_provider(internet)
     return fake
 
+
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
 async def session():
-    engine = create_engine('sqlite+aiosqlite:///example.db')
+    engine = create_engine("sqlite+aiosqlite:///example.db")
     session = create_async_session_maker(engine)
-    
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
         await conn.commit()
-    
+
     return session
+
 
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
 async def gateway(session):
@@ -33,7 +35,7 @@ async def gateway(session):
 
     async with gateway:
         await gateway.manager.create_transaction()
-        
+
         yield gateway
-        
+
         await gateway.manager.close_transaction()

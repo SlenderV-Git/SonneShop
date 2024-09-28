@@ -7,10 +7,10 @@ from backend.common.types import GatewayType
 
 
 class BaseGateway(ABC):
-    def __init__(self, context_manager : AsyncContextManager) -> None:
+    def __init__(self, context_manager: AsyncContextManager) -> None:
         self.__context_manager = context_manager
-        
-    async def __aenter__(self : GatewayType) -> GatewayType:
+
+    async def __aenter__(self: GatewayType) -> GatewayType:
         await self.__context_manager.__aenter__()
         return self
 

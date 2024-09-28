@@ -14,17 +14,17 @@ class TokenJWT:
     def create_jwt_token(self, data: dict) -> str:
         expiration = datetime.now() + timedelta(minutes=self.settings.jwt_expiration)
         data.update({"exp": expiration})
-        token = encode(data, self.settings.private_key, algorithm=self.settings.algorithm)
+        token = encode(
+            data, self.settings.private_key, algorithm=self.settings.algorithm
+        )
         return token
 
     def verify_jwt_token(self, token: str) -> Optional[Any]:
         try:
             decoded_data = decode(
-                token,
-                self.settings.public_key,
-                algorithms=[self.settings.algorithm]
+                token, self.settings.public_key, algorithms=[self.settings.algorithm]
             )
             return decoded_data
 
         except PyJWTError:
-            raise UnAuthorizedException('Token is invalid or expired')
+            raise UnAuthorizedException("Token is invalid or expired")

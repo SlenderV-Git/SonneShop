@@ -13,10 +13,10 @@ def get_root_dir_path() -> Path:
 class DatabaseSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f'{root_dir_path}/backend.env',
-        env_file_encoding='utf-8',
-        env_prefix='POSTGRES_',
-        extra='ignore'
+        env_file=f"{root_dir_path}/backend.env",
+        env_file_encoding="utf-8",
+        env_prefix="POSTGRES_",
+        extra="ignore",
     )
     HOST: str
     PORT: int
@@ -27,49 +27,55 @@ class DatabaseSettings(BaseSettings):
     @property
     def get_url_obj(self) -> URL:
         return URL.create(
-            'postgresql+asyncpg',
+            "postgresql+asyncpg",
             username=self.USER,
             password=self.PASSWORD,
             database=self.DB,
             host=self.HOST,
-            port=self.PORT
+            port=self.PORT,
         )
 
     @property
     def get_url_str(self) -> str:
         return (
-            f'postgresql+asyncpg://'
-            f'{self.USER}:'
-            f'{self.PASSWORD}@'
-            f'{self.HOST}:'
-            f'{self.PORT}/'
-            f'{self.DB}'
+            f"postgresql+asyncpg://"
+            f"{self.USER}:"
+            f"{self.PASSWORD}@"
+            f"{self.HOST}:"
+            f"{self.PORT}/"
+            f"{self.DB}"
         )
 
 
 class JWTSettings:
-    private_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt_private.pem").read_text()
-    public_key: Final[str] = (get_root_dir_path() / ".certs" / "jwt_public.pem").read_text()
-    algorithm: Final[str] = 'RS256'
+    private_key: Final[str] = (
+        get_root_dir_path() / ".certs" / "jwt_private.pem"
+    ).read_text()
+
+    public_key: Final[str] = (
+        get_root_dir_path() / ".certs" / "jwt_public.pem"
+    ).read_text()
+
+    algorithm: Final[str] = "RS256"
     jwt_expiration: Final[int] = 30
 
 
 class RedisSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f'{root_dir_path}/backend.env',
-        env_file_encoding='utf-8',
-        env_prefix='REDIS_',
-        extra='ignore'
+        env_file=f"{root_dir_path}/backend.env",
+        env_file_encoding="utf-8",
+        env_prefix="REDIS_",
+        extra="ignore",
     )
 
     HOST: str
     PORT: int
-    PASSWORD : str
+    PASSWORD: str
 
     @property
     def get_url(self) -> str:
-        return f'redis://{self.PASSWORD}@{self.HOST}:{self.PORT}'
+        return f"redis://{self.PASSWORD}@{self.HOST}:{self.PORT}"
 
 
 def get_db_settings() -> DatabaseSettings:

@@ -7,13 +7,14 @@ from .endpoints import init_routers
 from .dependencies import init_dependencies
 from .env import DatabaseSettings, JWTSettings, RedisSettings
 
+
 def init_app(
-        db_settings: DatabaseSettings,
-        jwt_settings: JWTSettings,
-        redis_settings: RedisSettings,
-        title: str = 'FastAPI',
-        docs_url: Optional[str] = "/docs",
-        redoc_url: Optional[str] = "/redoc",
+    db_settings: DatabaseSettings,
+    jwt_settings: JWTSettings,
+    redis_settings: RedisSettings,
+    title: str = "FastAPI",
+    docs_url: Optional[str] = "/docs",
+    redoc_url: Optional[str] = "/redoc",
 ) -> FastAPI:
     app = FastAPI(
         title=title,
@@ -26,5 +27,5 @@ def init_app(
     return app
 
 
-def start_app(app: FastAPI, host: str = '0.0.0.0', port: int = 8080) -> None:
+def start_app(app: FastAPI, host: str = "0.0.0.0", port: int = 8080) -> None:
     uvicorn.run(app, host=host, port=port)

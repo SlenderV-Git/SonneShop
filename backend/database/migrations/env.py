@@ -9,6 +9,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+
 #
 # base_path = Path(__file__).parent.parent.parent.parent
 # root = os.path.join(os.path.dirname(base_path), 'SonneShop')
@@ -16,13 +17,20 @@ from alembic import context
 
 from backend.settings.env import get_db_settings
 from backend.database.models.base.core import Base
-from backend.database.models import UserModel, AccountModel, ProductModel, TransactionModel
+from backend.database.models import (
+    UserModel,
+    AccountModel,
+    ProductModel,
+    TransactionModel,
+)
 
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", get_db_settings().get_url_str + '?async_fallback=True')
+config.set_main_option(
+    "sqlalchemy.url", get_db_settings().get_url_str + "?async_fallback=True"
+)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

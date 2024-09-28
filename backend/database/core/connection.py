@@ -6,7 +6,7 @@ from sqlalchemy import URL
 from backend.common.types import SessionFactory
 
 
-def create_engine(url_obj: URL, echo : Optional[bool] = False) -> AsyncEngine:
+def create_engine(url_obj: URL, echo: Optional[bool] = False) -> AsyncEngine:
     return create_async_engine(url_obj, echo=echo)
 
 

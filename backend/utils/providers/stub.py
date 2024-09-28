@@ -11,9 +11,9 @@ class Stub:
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Stub):
-            return (
-                self._dependency == other._dependency and self._kwargs == other._kwargs
-            )
+            dependncy = self._dependency == other._dependency
+            kwargs = self._kwargs == other._kwargs
+            return dependncy and kwargs
 
         if not self._kwargs:
             return cast(bool, self._dependency == other)

@@ -24,6 +24,7 @@ aiosqlite = "^0.20.0"
 pytest = "^8.3.3"
 pytest-asyncio = "^0.24.0"
 faker = "^30.0.0"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]
