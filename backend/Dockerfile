@@ -1,4 +1,4 @@
-FROM 3.11.9-alpine3.20
+FROM python:3.11.9-alpine3.20
 EXPOSE 8080
 
 WORKDIR /usr/backend_app
