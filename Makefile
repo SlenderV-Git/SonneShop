@@ -10,6 +10,9 @@ build-backend:
 	$(DC) --env-file $(ENV_PATH) build $(BACKEND_SERVICE)
 
 up-all:
+	docker compose --env-file $(ENV_PATH) up -d
+
+up-all-echo:
 	docker compose --env-file $(ENV_PATH) up
 
 up-backend:
