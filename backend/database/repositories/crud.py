@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Mapping, Sequence, Type
+from typing import Any, Mapping, Sequence, Type
 
 from sqlalchemy import CursorResult, delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
