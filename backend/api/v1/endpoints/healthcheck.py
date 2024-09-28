@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Mapping
 
 from fastapi import APIRouter, status
 
@@ -12,5 +12,5 @@ healthcheck_router = APIRouter(tags=["healthcheck"])
     response_model=HealthCheckResponseSchema,
     status_code=status.HTTP_200_OK,
 )
-async def healthcheck_endpoint() -> Dict[str, Any]:
+async def healthcheck_endpoint() -> Mapping[str, bool]:
     return {"ok": True}

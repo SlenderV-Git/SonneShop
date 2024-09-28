@@ -16,6 +16,7 @@ passlib = "^1.7.4"
 redis = "^5.0.8"
 uvicorn = "^0.30.6"
 asyncpg = "^0.29.0"
+alembic = "^1.13.3"
 
 
 [tool.poetry.group.dev.dependencies]
