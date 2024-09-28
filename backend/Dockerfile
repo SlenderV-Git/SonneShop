@@ -9,6 +9,7 @@ ENV PYTHONPATH=/usr/app/.
 
 RUN apk update
 RUN apk add --no-cache build-base
+RUN apk add --no-cache bash
 
 RUN pip install --upgrade pip
 RUN pip install poetry
