@@ -10,12 +10,12 @@ on:
 
 jobs:
   deploy:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v4
-      
-      name: Deploy to server
-      run: 
-        ssh user@server "cd /${{ github.event.repository.name }} && git pull && make build backend && make up-all"
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+
+      - name: Deploy to server
+        run: |
+          ssh user@server "cd /${{ github.event.repository.name }} && git pull && make build backend && make up-all"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
