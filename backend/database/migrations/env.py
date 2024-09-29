@@ -15,10 +15,10 @@ from alembic import context
 from backend.settings.env import get_db_settings
 from backend.database.models.base.core import Base
 from backend.database.models import (
-    UserModel,
-    AccountModel,
-    ProductModel,
-    TransactionModel,
+    UserModel,  # noqa: F401
+    AccountModel,  # noqa: F401
+    ProductModel,  # noqa: F401
+    TransactionModel,  # noqa: F401
 )
 
 
