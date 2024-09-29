@@ -1,4 +1,4 @@
-name: Test Secrets
+name: CI/CD Pipeline
 
 on:
   push:
@@ -14,13 +14,22 @@ jobs:
     
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
+      - name: Check secrets availability
+        run: |
+          echo "Checking if secrets are available..."
+          if [ -z "${{ secrets.SSH_USER }}" ]; then echo "SSH_USER is not set"; fi
+          if [ -z "${{ secrets.SSH_HOST }}" ]; then echo "SSH_HOST is not set"; fi
+          if [ -z "${{ secrets.PAT }}" ]; then echo "PAT is not set"; fi
+          echo "SSH_PRIVATE_KEY: [hidden for security reasons]"
+          
       - name: Display Secrets
         run: |
           echo "SSH_USER: ${{ secrets.SSH_USER }}"
           echo "SSH_HOST: ${{ secrets.SSH_HOST }}"
           echo "PAT: ${{ secrets.PAT }}"
           echo "SSH_PRIVATE_KEY: [hidden for security reasons]"
+
 
     
