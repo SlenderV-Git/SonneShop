@@ -9,7 +9,7 @@ services:
     working_dir: /usr/backend_app/.
     ports:
       - "8080:8080"
-    command: bash -c 'alembic upgrade head && python -m backend'
+    command: bash -c 'alembic upgrade head && python -m src'
     networks:
       - app-network
     expose:
