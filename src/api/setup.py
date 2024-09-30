@@ -3,9 +3,9 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 
-from .endpoints import init_routers
-from .dependencies import init_dependencies
-from .env import DatabaseSettings, JWTSettings, RedisSettings
+from src.api.v1.setup import init_routers
+from src.api.v1.dependencies import init_dependencies
+from src.settings.env import DatabaseSettings, JWTSettings, RedisSettings
 
 
 def init_app(

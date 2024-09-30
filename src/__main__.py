@@ -1,4 +1,4 @@
-from src.settings.app import init_app, start_app
+from src.api.setup import init_app, start_app
 from src.settings.env import get_db_settings, get_jwt_settings, get_redis_settings
 
 
