@@ -12,7 +12,7 @@ from alembic import context
 # root = os.path.join(os.path.dirname(base_path), 'SonneShop')
 # sys.path.append(root)
 
-from src.settings.env import get_db_settings
+from src.core.settings import get_db_settings
 from src.database.models.base.core import Base
 from src.database.models import (
     UserModel,  # noqa: F401
