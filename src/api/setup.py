@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from src.api.v1.setup import init_routers
 from src.api.v1.dependencies import init_dependencies
-from src.settings.env import DatabaseSettings, JWTSettings, RedisSettings
+from src.core.settings import DatabaseSettings, JWTSettings, RedisSettings
 
 
 def init_app(
