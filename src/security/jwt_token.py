@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from jwt import PyJWTError, encode, decode
 
-from src.settings.env import JWTSettings
+from src.core.settings import JWTSettings
 from src.common.exceptions import UnAuthorizedException
 
 
