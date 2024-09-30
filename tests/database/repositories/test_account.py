@@ -1,9 +1,9 @@
 import pytest
 from random import randrange
 
-from backend.database.gateway import DBGateway
-from backend.database.models.account import AccountModel
-from backend.database.models.user import UserModel
+from src.database.gateway import DBGateway
+from src.database.models.account import AccountModel
+from src.database.models.user import UserModel
 
 
 class TestAccountRepository:

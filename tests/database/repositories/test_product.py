@@ -1,8 +1,8 @@
 from typing import Sequence
 import pytest
 
-from backend.database.gateway import DBGateway
-from backend.database.models.product import ProductModel
+from src.database.gateway import DBGateway
+from src.database.models.product import ProductModel
 
 
 class TestProductRepository:

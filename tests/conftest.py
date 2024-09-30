@@ -3,10 +3,10 @@ import pytest_asyncio
 from faker import Faker
 from faker.providers import internet
 
-from backend.database.core.connection import create_async_session_maker, create_engine
-from backend.database.core.manager import TransactionManager
-from backend.database.factory import create_database_factory
-from backend.database.models.base.core import Base
+from src.database.core.connection import create_async_session_maker, create_engine
+from src.database.core.manager import TransactionManager
+from src.database.factory import create_database_factory
+from src.database.models.base.core import Base
 
 
 @pytest.fixture(autouse=True, scope="session")
