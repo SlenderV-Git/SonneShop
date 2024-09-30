@@ -1,7 +1,7 @@
 import pytest
-from backend.common.dto.user import UserSchema
-from backend.database.gateway import DBGateway
-from backend.database.models import UserModel
+from src.common.dto.user import UserSchema
+from src.database.gateway import DBGateway
+from src.database.models import UserModel
 
 
 class TestUserRepository:

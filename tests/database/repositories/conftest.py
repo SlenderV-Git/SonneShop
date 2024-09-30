@@ -4,9 +4,9 @@ import pytest
 import pytest_asyncio
 from faker import Faker
 
-from backend.common.dto import UserSchema, ProductSchema
-from backend.database.gateway import DBGateway
-from backend.database.models.user import UserModel
+from src.common.dto import UserSchema, ProductSchema
+from src.database.gateway import DBGateway
+from src.database.models.user import UserModel
 
 
 @pytest.fixture(autouse=True, scope="session")
