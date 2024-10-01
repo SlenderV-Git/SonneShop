@@ -67,7 +67,7 @@ class CommandMediator:
             )
 
     def send(self, query: QT, **kwargs: Any) -> AwaitableProxy[CommandProtocol, RT]:
-        handler = self.commands.get(query)
+        handler = self.commands.get(type(query))
         if not handler:
             raise CommandNotFoundError(f"Not found handlers from {type(query)} command")
 

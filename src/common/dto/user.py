@@ -1,7 +1,10 @@
-from pydantic import EmailStr, BaseModel, field_validator
+from typing import Optional
+from pydantic import EmailStr, field_validator
+
+from src.common.dto.base import DTO
 
 
-class UserSchema(BaseModel):
+class UserSchema(DTO):
     login: str
     email: EmailStr
     password: str
@@ -21,3 +24,13 @@ class UserSchema(BaseModel):
             raise ValueError("Password must have at least one digit")
 
         return value
+
+
+class User(DTO):
+    id: int
+    login: str
+
+
+class SelectUserQuery(DTO):
+    id: Optional[int] = None
+    login: Optional[str] = None

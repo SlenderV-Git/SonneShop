@@ -7,7 +7,7 @@ from src.database.core import (
 )
 from src.database.gateway import DBGateway
 from src.core.settings import DatabaseSettings, JWTSettings, RedisSettings
-from src.security import TokenJWT, BcryptHasher, get_pwd_context
+from src.services.security import TokenJWT, BcryptHasher, get_pwd_context
 from src.database.factory import create_database_factory
 from src.common.tools import singleton
 from src.cache.core.client import RedisClient
