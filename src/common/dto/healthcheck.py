@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from src.common.dto.base import DTO
 
 
-class HealthCheckResponseSchema(BaseModel):
+class HealthCheckResponseSchema(DTO):
     ok: bool

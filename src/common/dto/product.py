@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from src.common.dto.base import DTO
 
 
-class ProductSchema(BaseModel):
+class ProductSchema(DTO):
     title: str
     description: str
     price: int
