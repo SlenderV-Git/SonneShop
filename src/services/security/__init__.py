@@ -1,5 +1,4 @@
-from .bcrypt_hasher import BcryptHasher
 from .jwt_token import TokenJWT
-from .argon_hasher import get_argon2_hasher
+from .argon_hasher import get_argon2_hasher, Argon2
 
-__all__ = (BcryptHasher, TokenJWT, get_argon2_hasher)
+__all__ = (Argon2, TokenJWT, get_argon2_hasher)
