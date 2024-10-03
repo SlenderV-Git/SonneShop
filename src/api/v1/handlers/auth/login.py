@@ -7,7 +7,7 @@ from src.cache.core.client import RedisClient
 from src.common.dto import TokensExpire
 from src.common.exceptions.routers import NotFoundException, UnAuthorizedException
 from src.api.common.providers.stub import Stub
-from src.common.dto.user import Fingerprint, LoginShema
+from src.common.dto.user import LoginShema
 from src.database.gateway import DBGateway
 from src.services.security.argon_hasher import Argon2
 from src.services.security.jwt_token import TokenJWT
