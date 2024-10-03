@@ -9,6 +9,7 @@ from src.database.core import (
     create_async_session_maker,
     TransactionManager,
 )
+from fakeredis.aioredis import FakeRedis
 from src.database.gateway import DBGateway
 from src.core.settings import DatabaseSettings, JWTSettings, RedisSettings
 from src.services.security import TokenJWT, Argon2, get_argon2_hasher
@@ -35,7 +36,11 @@ def init_dependencies(
     service_factory = create_service_gateway_factory(db_factory)
     hasher = get_argon2_hasher()
 
-    redis_client = RedisClient.from_url(redis_settings.get_url)
+    redis_client = (
+        RedisClient.from_url(redis_settings.get_url)
+        if app_status == "production"
+        else FakeRedis()
+    )
     jwt_token = TokenJWT(jwt_settings)
 
     mediator = CommandMediator()
