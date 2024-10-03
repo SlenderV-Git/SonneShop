@@ -8,7 +8,7 @@ class Token(DTO):
 
 class Tokens(DTO):
     acces_token: str
-    reflesh_token: str
+    refresh_token: str
 
 
 class TokensExpire(Tokens):

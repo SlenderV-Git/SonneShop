@@ -47,7 +47,7 @@ class TokenJWT:
         )
         return expire, Token(token=token)
 
-    def verify_jwt_token(self, token: str) -> Optional[Any]:
+    def verify_jwt_token(self, token: str) -> Optional[dict]:
         try:
             decoded_data = decode(
                 token, self.settings.public_key, algorithms=[self.settings.algorithm]

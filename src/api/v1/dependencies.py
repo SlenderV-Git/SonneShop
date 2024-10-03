@@ -39,7 +39,7 @@ def init_dependencies(
     redis_client = (
         RedisClient.from_url(redis_settings.get_url)
         if app_status == "production"
-        else FakeRedis()
+        else RedisClient(FakeRedis())
     )
     jwt_token = TokenJWT(jwt_settings)
 
