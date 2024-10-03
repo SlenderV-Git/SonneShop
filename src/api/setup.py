@@ -22,7 +22,7 @@ def init_app(
         redoc_url=redoc_url,
     )
     init_routers(app)
-    init_dependencies(app, db_settings, jwt_settings, redis_settings)
+    init_dependencies(app, db_settings, jwt_settings, redis_settings, app_status="test")
 
     return app
 

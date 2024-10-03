@@ -19,6 +19,8 @@ asyncpg = "^0.29.0"
 alembic = "^1.13.3"
 argon2-cffi = "^23.1.0"
 argon2-cffi-bindings = "^21.2.0"
+cryptography = "^43.0.1"
+orjson = "^3.10.7"
 
 
 [tool.poetry.group.dev.dependencies]

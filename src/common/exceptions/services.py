@@ -8,3 +8,7 @@ class ConflictError(Exception):
 
 class AttributeNotSpecifiedError(Exception):
     pass
+
+
+class ServiceNotImplementedError(Exception):
+    pass

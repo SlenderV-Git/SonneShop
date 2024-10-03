@@ -26,6 +26,15 @@ class UserSchema(DTO):
         return value
 
 
+class Fingerprint(DTO):
+    fingerprint: str
+
+
+class LoginShema(Fingerprint):
+    login: str
+    password: str
+
+
 class User(DTO):
     id: int
     login: str

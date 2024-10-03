@@ -1,3 +1,4 @@
+from typing import Literal, Optional
 from fastapi import FastAPI
 
 from src.services.gateway import ServicesGateway
@@ -16,13 +17,19 @@ from src.common.tools import singleton
 from src.cache.core.client import RedisClient
 
 
+APP_STATUS = Literal["test", "production"]
+
+
 def init_dependencies(
     app: FastAPI,
     db_settings: DatabaseSettings,
     jwt_settings: JWTSettings,
     redis_settings: RedisSettings,
+    app_status: Optional[APP_STATUS] = "production",
 ) -> None:
-    engine = create_engine(db_settings.get_url_obj)
+    engine = create_engine(
+        db_settings.get_url_obj if app_status == "production" else db_settings.TEST_HOST
+    )
     session = create_async_session_maker(engine)
     db_factory = create_database_factory(TransactionManager, session)
     service_factory = create_service_gateway_factory(db_factory)

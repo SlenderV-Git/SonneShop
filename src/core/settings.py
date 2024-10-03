@@ -23,6 +23,7 @@ class DatabaseSettings(BaseSettings):
     USER: str
     PASSWORD: str
     DB: str
+    TEST_HOST: Final[str] = "sqlite+aiosqlite:///example.db"
 
     @property
     def get_url_obj(self) -> URL:
@@ -57,7 +58,8 @@ class JWTSettings:
     ).read_text()
 
     algorithm: Final[str] = "RS256"
-    jwt_expiration: Final[int] = 30
+    acces_token_expiration: Final[int] = 30
+    reflesh_token_expiration: Final[int] = 900
 
 
 class RedisSettings(BaseSettings):
