@@ -1,4 +1,3 @@
-import logging
 from typing import Annotated, Any, Literal, Optional
 
 from fastapi import Depends, Request
@@ -9,7 +8,6 @@ from fastapi.security.base import SecurityBase
 from src.api.common.exceptions import ForbiddenError
 from src.cache.core.client import RedisClient
 from src.common.dto import Fingerprint, TokensExpire, Status
-from src.services.security.argon_hasher import Argon2
 from src.api.common.providers.stub import Stub
 from src.common.dto.user import User
 from src.database.gateway import DBGateway
@@ -17,9 +15,6 @@ from src.services.security.jwt_token import TokenJWT
 
 
 TokenType = Literal["access", "refresh"]
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 class Authorization(SecurityBase):
@@ -33,7 +28,6 @@ class Authorization(SecurityBase):
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
-        hasher: Annotated[Argon2, Depends(Stub(Argon2))],
     ) -> User:
         token = self._get_token(request)
         return await self.verify_token(jwt, database, token, "access")
@@ -100,7 +94,19 @@ class Authorization(SecurityBase):
 
         return user
 
-    async def deactivate_refresh(
+    def _get_token(self, request: Request) -> str:
+        authorization = request.headers.get("authorization")
+        scheme, _, token = authorization.partition(" ")
+        if not (authorization and scheme and token):
+            raise ForbiddenError("Not authenticated")
+        if scheme.lower() != "bearer":
+            raise ForbiddenError("Invalid authentication credentials")
+
+        return token
+
+
+class Logout(Authorization):
+    async def __call__(
         self,
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
@@ -122,13 +128,3 @@ class Authorization(SecurityBase):
                 break
 
         return Status(ok=True)
-
-    def _get_token(self, request: Request) -> str:
-        authorization = request.headers.get("authorization")
-        scheme, _, token = authorization.partition(" ")
-        if not (authorization and scheme and token):
-            raise ForbiddenError("Not authenticated")
-        if scheme.lower() != "bearer":
-            raise ForbiddenError("Invalid authentication credentials")
-
-        return token
