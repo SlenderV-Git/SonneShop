@@ -27,5 +27,5 @@ def init_app(
     return app
 
 
-def start_app(app: FastAPI, host: str = "127.0.0.1", port: int = 8080) -> None:
+def start_app(app: FastAPI, host: str = "0.0.0.0", port: int = 8080) -> None:
     uvicorn.run(app, host=host, port=port)
