@@ -1,7 +1,3 @@
-from typing import Callable
-
-from secrets import token_hex
-from faker import Faker
 import pytest
 
 from src.common.exceptions.routers import NotFoundException
@@ -11,31 +7,13 @@ from src.common.dto.token import TokensExpire
 from src.database.gateway import DBGateway
 from src.services.security.argon_hasher import Argon2
 from src.services.security.jwt_token import TokenJWT
-from src.common.dto import UserSchema, LoginShema
+from src.common.dto import LoginShema
 
 
 class TestLogin:
     @pytest.mark.asyncio
-    async def test_login(
-        self,
-        gateway: DBGateway,
-        redis: RedisClient,
-        jwt: TokenJWT,
-        hasher: Argon2,
-        user_dto: UserSchema,
-    ):
-        login = Login()
-        login_schema = LoginShema(
-            fingerprint=token_hex(16), login=user_dto.login, password=user_dto.password
-        )
-        tokens = await login(
-            login_data=login_schema,
-            database=gateway,
-            cache=redis,
-            jwt=jwt,
-            hasher=hasher,
-        )
-        assert isinstance(tokens, TokensExpire)
+    async def test_login(self, auth_tokens: TokensExpire):
+        assert isinstance(auth_tokens, TokensExpire)
 
     @pytest.mark.asyncio
     async def test_unknown_user_login(
@@ -44,18 +22,16 @@ class TestLogin:
         redis: RedisClient,
         jwt: TokenJWT,
         hasher: Argon2,
-        faker: Faker,
+        fake_login_schema: LoginShema,
     ):
         login = Login()
-        login_schema = LoginShema(
-            fingerprint=token_hex(16), login=faker.name(), password=faker.password()
-        )
+
         with pytest.raises(NotFoundException) as not_found:
             await login(
-                login_data=login_schema,
+                login_data=fake_login_schema,
                 database=gateway,
                 cache=redis,
                 jwt=jwt,
                 hasher=hasher,
             )
-            assert not_found.message == f"User {login_schema.login} not found"
+            assert not_found.message == f"User {fake_login_schema.login} not found"
