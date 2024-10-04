@@ -8,7 +8,6 @@ from fastapi.security.base import SecurityBase
 from src.api.common.exceptions import ForbiddenError
 from src.cache.core.client import RedisClient
 from src.common.dto import Fingerprint, TokensExpire, Status
-from src.services.security.argon_hasher import Argon2
 from src.api.common.providers.stub import Stub
 from src.common.dto.user import User
 from src.database.gateway import DBGateway
@@ -29,10 +28,9 @@ class Authorization(SecurityBase):
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
-        hasher: Annotated[Argon2, Depends(Stub(Argon2))],
     ) -> User:
         token = self._get_token(request)
-        return await self._verify_token(jwt, database, token, "access")
+        return await self.verify_token(jwt, database, token, "access")
 
     async def verify_refresh(
         self,
@@ -66,14 +64,16 @@ class Authorization(SecurityBase):
             raise ForbiddenError("Token is not valid anymore")
 
         await cache.pop(str(user.id), verified)
-        _, access = await run_in_threadpool(jwt.create, typ="access", sub=str(user.id))
+        _, access = await run_in_threadpool(
+            jwt.create_jwt_token, type="access", sub=str(user.id)
+        )
         expire, refresh = await run_in_threadpool(
-            jwt.create, typ="refresh", sub=str(user.id)
+            jwt.create_jwt_token, type="refresh", sub=str(user.id)
         )
         await cache.set_list(str(user.id), f"{body.fingerprint}::{refresh.token}")
 
         return TokensExpire(
-            acces_token=access, refresh_token=refresh, expire_date=expire
+            acces_token=access.token, refresh_token=refresh.token, expire_date=expire
         )
 
     async def verify_token(
@@ -94,14 +94,26 @@ class Authorization(SecurityBase):
 
         return user
 
-    async def deactivate_refresh(
+    def _get_token(self, request: Request) -> str:
+        authorization = request.headers.get("authorization")
+        scheme, _, token = authorization.partition(" ")
+        if not (authorization and scheme and token):
+            raise ForbiddenError("Not authenticated")
+        if scheme.lower() != "bearer":
+            raise ForbiddenError("Invalid authentication credentials")
+
+        return token
+
+
+class Logout(Authorization):
+    async def __call__(
         self,
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
         cache: Annotated[RedisClient, Depends(Stub(RedisClient))],
     ):
-        token = request.headers.get("authorization")
+        token = self._get_token(request)
         user = await self.verify_token(jwt, database, token, "refresh")
 
         token_pairs = await cache.get_list(user.id)
@@ -116,13 +128,3 @@ class Authorization(SecurityBase):
                 break
 
         return Status(ok=True)
-
-    def _get_token(self, request: Request) -> str:
-        authorization = request.headers.get("Authorization")
-        scheme, _, token = authorization.partition(" ")
-        if not (authorization and scheme and token):
-            raise ForbiddenError("Not authenticated")
-        if scheme.lower() != "bearer":
-            raise ForbiddenError("Invalid authentication credentials")
-
-        return token

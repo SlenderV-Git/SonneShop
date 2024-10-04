@@ -1,27 +1,11 @@
 from random import randrange
 
-import pytest
 import pytest_asyncio
 from faker import Faker
 
-from src.common.dto import UserSchema, ProductSchema
+from src.common.dto import ProductSchema
 from src.database.gateway import DBGateway
 from src.database.models.user import UserModel
-
-
-@pytest.fixture(autouse=True, scope="session")
-def user_dto(faker: Faker):
-    return UserSchema(
-        login=faker.name(),
-        email=faker.email(safe=True),
-        password=faker.password(length=10),
-    )
-
-
-@pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")
-async def user(gateway: DBGateway, user_dto: UserSchema):
-    await gateway.user().create(**user_dto.model_dump())
-    return await gateway.user().get_one(login=user_dto.login)
 
 
 @pytest_asyncio.fixture(autouse=True, scope="session", loop_scope="session")

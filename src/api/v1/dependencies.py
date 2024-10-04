@@ -54,7 +54,7 @@ def init_dependencies(
         hasher=hasher,
     )
 
-    app.dependency_overrides[CommandMediator] = mediator
+    app.dependency_overrides[CommandMediator] = singleton(mediator)
     app.dependency_overrides[ServicesGateway] = service_factory
     app.dependency_overrides[DBGateway] = db_factory
     app.dependency_overrides[TokenJWT] = singleton(jwt_token)

@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from src.api.common.responses import OkResponse
-from src.api.v1.handlers.auth import Login, Authorization
+from src.api.v1.handlers.auth import Login, Authorization, Logout
 from src.common.dto import Token, TokensExpire, Status
 
 auth_router = APIRouter(tags=["auth"])
@@ -45,7 +45,7 @@ async def refresh_endpoint(
 
 @auth_router.post("/logout", response_model=Status)
 async def logout_router(
-    status: Annotated[Status, Depends(Authorization().deactivate_refresh)]
+    status: Annotated[Status, Depends(Logout())],
 ) -> OkResponse[Status]:
     response = OkResponse(status)
     response.delete_cookie("refresh_token")
