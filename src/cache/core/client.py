@@ -1,3 +1,4 @@
+from codecs import decode
 from typing import Any, Sequence, Literal, Optional, Type
 from datetime import timedelta
 
@@ -16,6 +17,10 @@ class RedisClient:
     @staticmethod
     def _convert_key(key: Optional[str | int]) -> str:
         return str(key)
+
+    @staticmethod
+    def _convert_result_list(result: Optional[Sequence[bytes]]) -> Sequence[str]:
+        return [*map(decode, result)]
 
     async def get_one(self, key: Optional[str | int]) -> Optional[str]:
         return await self._client.get(self._convert_key(key))
@@ -63,7 +68,12 @@ class RedisClient:
         return result
 
     async def get_list(self, key: Any, start: int = 0, end: int = -1) -> Sequence[str]:
-        return await self._client.lrange(self._convert_key(key), start, end)
+        return self._convert_result_list(
+            await self._client.lrange(self._convert_key(key), start, end)
+        )
+
+    async def pop(self, key: Any, value: str, count: int = 0) -> int:
+        return await self._client.lrem(self._convert_key(key), count, value)
 
     async def set_expire(
         self, key: Optional[str | int], time: Optional[timedelta | int]

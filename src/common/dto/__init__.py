@@ -1,4 +1,4 @@
-from .user import UserSchema, User, Fingerprint, LoginShema
+from .user import UserSchema, User, Fingerprint, LoginShema, SelectUserQuery
 from .product import ProductSchema
 from .token import TokensExpire, Token
 from .healthcheck import HealthCheckResponseSchema, Status
@@ -13,4 +13,5 @@ __all__ = (
     HealthCheckResponseSchema,
     Status,
     LoginShema,
+    SelectUserQuery,
 )

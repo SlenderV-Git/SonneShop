@@ -1,3 +1,4 @@
+import logging
 from typing import Annotated, Any, Literal, Optional
 
 from fastapi import Depends, Request
@@ -17,6 +18,9 @@ from src.services.security.jwt_token import TokenJWT
 
 TokenType = Literal["access", "refresh"]
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 class Authorization(SecurityBase):
     def __init__(self, *permissions: Any) -> None:
@@ -32,7 +36,7 @@ class Authorization(SecurityBase):
         hasher: Annotated[Argon2, Depends(Stub(Argon2))],
     ) -> User:
         token = self._get_token(request)
-        return await self._verify_token(jwt, database, token, "access")
+        return await self.verify_token(jwt, database, token, "access")
 
     async def verify_refresh(
         self,
@@ -66,14 +70,16 @@ class Authorization(SecurityBase):
             raise ForbiddenError("Token is not valid anymore")
 
         await cache.pop(str(user.id), verified)
-        _, access = await run_in_threadpool(jwt.create, typ="access", sub=str(user.id))
+        _, access = await run_in_threadpool(
+            jwt.create_jwt_token, type="access", sub=str(user.id)
+        )
         expire, refresh = await run_in_threadpool(
-            jwt.create, typ="refresh", sub=str(user.id)
+            jwt.create_jwt_token, type="refresh", sub=str(user.id)
         )
         await cache.set_list(str(user.id), f"{body.fingerprint}::{refresh.token}")
 
         return TokensExpire(
-            acces_token=access, refresh_token=refresh, expire_date=expire
+            acces_token=access.token, refresh_token=refresh.token, expire_date=expire
         )
 
     async def verify_token(
@@ -101,7 +107,7 @@ class Authorization(SecurityBase):
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
         cache: Annotated[RedisClient, Depends(Stub(RedisClient))],
     ):
-        token = request.headers.get("authorization")
+        token = self._get_token(request)
         user = await self.verify_token(jwt, database, token, "refresh")
 
         token_pairs = await cache.get_list(user.id)
@@ -118,7 +124,7 @@ class Authorization(SecurityBase):
         return Status(ok=True)
 
     def _get_token(self, request: Request) -> str:
-        authorization = request.headers.get("Authorization")
+        authorization = request.headers.get("authorization")
         scheme, _, token = authorization.partition(" ")
         if not (authorization and scheme and token):
             raise ForbiddenError("Not authenticated")

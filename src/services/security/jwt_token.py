@@ -1,3 +1,4 @@
+import base64
 from typing import Literal, Optional, Any, Tuple
 from datetime import datetime, timedelta, timezone
 
@@ -54,5 +55,5 @@ class TokenJWT:
             )
             return decoded_data
 
-        except PyJWTError:
-            raise UnAuthorizedException("Token is invalid or expired")
+        except PyJWTError as pyjwt:
+            raise UnAuthorizedException(f"Token is invalid or expired {pyjwt}")
