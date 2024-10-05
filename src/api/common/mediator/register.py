@@ -13,9 +13,13 @@ from typing import (
     overload,
 )
 
-from src.api.v1.handlers.command import UserCreateCommand, UserSelectCommand
+from src.api.v1.handlers.command import (
+    UserCreateCommand,
+    UserSelectCommand,
+    UserUpdateCommand,
+)
 from src.common.dto import UserSchema
-from src.common.dto.user import SelectUserQuery, User
+from src.common.dto.user import SelectUserQuery, User, UpdateUserQuery
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
 from .proxy import AwaitableProxy, CommandType
@@ -32,6 +36,12 @@ class CommandMediatorProtocol(Protocol):
 
     @overload
     def send(self, query: SelectUserQuery) -> AwaitableProxy[UserSelectCommand, User]:
+        ...
+
+    @overload
+    def send(
+        self, query: UpdateUserQuery, *, hasher: AbstractHasher
+    ) -> AwaitableProxy[UserUpdateCommand, User]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol

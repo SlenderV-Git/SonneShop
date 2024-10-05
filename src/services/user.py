@@ -40,3 +40,14 @@ class UserService(BaseGateway):
             )
 
         return from_model_to_dto(user, User)
+
+    async def update(
+        self, user_id: int, data: UserSchema, hasher: AbstractHasher
+    ) -> User:
+        data.password = hasher.hash_password(data.password)
+
+        user = await self._repository.update(user_id, **data.model_dump())
+        if not user:
+            raise NotFoundError(f"User {data.login} not found")
+
+        return from_model_to_dto(user, User)

@@ -1,3 +1,3 @@
-from .user import UserCreateCommand, UserSelectCommand
+from .user import UserCreateCommand, UserSelectCommand, UserUpdateCommand
 
-__all__ = (UserSelectCommand, UserCreateCommand)
+__all__ = (UserSelectCommand, UserCreateCommand, UserUpdateCommand)

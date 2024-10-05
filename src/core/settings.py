@@ -58,8 +58,8 @@ class JWTSettings:
     ).read_text()
 
     algorithm: Final[str] = "RS256"
-    acces_token_expiration: Final[int] = 30
-    reflesh_token_expiration: Final[int] = 900
+    acces_token_expiration: Final[int] = 3000
+    reflesh_token_expiration: Final[int] = 9000
 
 
 class RedisSettings(BaseSettings):

@@ -43,3 +43,7 @@ class User(DTO):
 class SelectUserQuery(DTO):
     id: Optional[int] = None
     login: Optional[str] = None
+
+
+class UpdateUserQuery(UserSchema):
+    id: int
