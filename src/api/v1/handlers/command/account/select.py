@@ -17,11 +17,7 @@ class GetAccountBalanceCommand(Command[AccountBalanceQuery, Balance]):
             )
 
 
-class GetAllAccountsBalanceCommand(
-    Command[
-        AllAccountsBalanceQuery,
-    ]
-):
+class GetAllAccountsBalanceCommand(Command[AllAccountsBalanceQuery, Balance]):
     __slots__ = "_gateway"
 
     def __init__(self, service_gateway: ServicesGateway) -> None:

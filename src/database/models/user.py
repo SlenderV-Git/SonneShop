@@ -13,3 +13,4 @@ class UserModel(ModelWithIDMixin, ModelWithTimeMixin, Base):
     is_superuser: Mapped[bool] = mapped_column(nullable=False, default=False)
 
     accounts: Mapped[list["AccountModel"]] = relationship(back_populates="user")  # type: ignore # noqa: F821
+    transactions: Mapped[list["TransactionModel"]] = relationship(back_populates="user")  # type: ignore  # noqa: F821
