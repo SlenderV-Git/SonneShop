@@ -24,26 +24,24 @@ class AccountService(BaseGateway):
         accounts = await self._repository.get_all(user_id)
         return Balance(balance=sum([account.balance for account in accounts]))
 
-    async def get_balance(self, account_query: AccountBalanceQuery) -> Balance:
-        account = await self._repository.get_one(
-            user_id=account_query.user_id, account_id=account_query.id
-        )
+    async def get_balance(self, user_id: int, account_id: int) -> Balance:
+        account = await self._repository.get_one(user_id=user_id, account_id=account_id)
         if not account:
             raise NotFoundError("Failed to retrieve. Account not find")
 
         return from_model_to_dto(account, Balance)
 
-    async def replenish(self, paid: AccountReplenishmentQuery) -> Balance:
+    async def replenish(self, user_id: int, account_id: int, amount: int) -> Balance:
         account = await self._repository.update(
-            user_id=paid.user_id, account_id=paid.id, amount=paid.amount
+            user_id=user_id, account_id=account_id, amount=amount
         )
         if not account:
             raise NotFoundError("Failed to refill. Account not found")
 
         return from_model_to_dto(account, Balance)
 
-    async def delete_account(self, account_query: DeleteAccountQuery) -> Account:
-        account = await self._repository.delete(account_query.user_id, account_query.id)
+    async def delete_account(self, user_id: int, account_id: int) -> Account:
+        account = await self._repository.delete(user_id, account_id)
         if not account:
             raise NotFoundError("Failed to delete. Account not find")
 

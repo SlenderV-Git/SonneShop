@@ -15,6 +15,10 @@ class BaseQuery(BaseModel):
     id: int
 
 
+class AccountCreateQuery(BaseModel):
+    user_id: int
+
+
 class AccountReplenishmentQuery(BaseQuery):
     amount: int
 
@@ -24,7 +28,7 @@ class AccountBalanceQuery(BaseQuery):
 
 
 class AllAccountsBalanceQuery(BaseModel):
-    pass
+    user_id: int
 
 
 class DeleteAccountQuery(BaseQuery):

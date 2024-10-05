@@ -14,12 +14,27 @@ from typing import (
 )
 
 from src.api.v1.handlers.command import (
-    UserCreateCommand,
     UserSelectCommand,
+    UserCreateCommand,
     UserUpdateCommand,
+    GetAccountBalanceCommand,
+    GetAllAccountsBalanceCommand,
+    DeleteAccountCommand,
+    AccountCreateCommand,
+    AccountReplenishmentCommand,
 )
+
 from src.common.dto import UserSchema
 from src.common.dto.user import SelectUserQuery, User, UpdateUserQuery
+from src.common.dto.account import (
+    Account,
+    Balance,
+    DeleteAccountQuery,
+    AccountBalanceQuery,
+    AllAccountsBalanceQuery,
+    AccountCreateQuery,
+    AccountReplenishmentQuery,
+)
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
 from .proxy import AwaitableProxy, CommandType
@@ -42,6 +57,36 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: UpdateUserQuery, *, hasher: AbstractHasher
     ) -> AwaitableProxy[UserUpdateCommand, User]:
+        ...
+
+    @overload
+    def send(
+        self, query: AllAccountsBalanceQuery
+    ) -> AwaitableProxy[GetAllAccountsBalanceCommand, Balance]:
+        ...
+
+    @overload
+    def send(
+        self, query: AccountBalanceQuery
+    ) -> AwaitableProxy[GetAccountBalanceCommand, Balance]:
+        ...
+
+    @overload
+    def send(
+        self, query: AccountCreateQuery
+    ) -> AwaitableProxy[AccountCreateCommand, Account]:
+        ...
+
+    @overload
+    def send(
+        self, query: AccountReplenishmentQuery
+    ) -> AwaitableProxy[AccountReplenishmentCommand, Account]:
+        ...
+
+    @overload
+    def send(
+        self, query: DeleteAccountQuery
+    ) -> AwaitableProxy[DeleteAccountCommand, Account]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol
