@@ -9,6 +9,7 @@ from .user import (
 from .product import ProductSchema
 from .token import TokensExpire, Token
 from .healthcheck import HealthCheckResponseSchema, Status
+from .account import Account, Balance, AccountBalanceQuery, AllAccountsBalanceQuery
 
 __all__ = (
     UserSchema,
@@ -22,4 +23,8 @@ __all__ = (
     LoginShema,
     SelectUserQuery,
     UpdateUserQuery,
+    Account,
+    Balance,
+    AccountBalanceQuery,
+    AllAccountsBalanceQuery,
 )

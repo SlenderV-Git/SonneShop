@@ -1,6 +1,6 @@
 from src.common.interfaces.gateway import BaseGateway
 from src.database.gateway import DBGateway
-from src.services.user import UserService
+from src.services import UserService, AccountService
 
 
 class ServicesGateway(BaseGateway):
@@ -12,3 +12,6 @@ class ServicesGateway(BaseGateway):
 
     def user(self) -> UserService:
         return UserService(repository=self._database.user())
+
+    def account(self) -> AccountService:
+        return AccountService(repository=self._database.account())
