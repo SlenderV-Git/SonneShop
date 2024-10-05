@@ -1,8 +1,8 @@
 from typing import Sequence
-from common.dto.product import Product, ProductSchema
-from common.exceptions.services import ConflictError, NotFoundError
-from common.interfaces.gateway import BaseGateway
-from database.repositories.product import ProductRepostory
+from src.common.dto.product import Product, ProductSchema
+from src.common.exceptions.services import ConflictError, NotFoundError
+from src.common.interfaces.gateway import BaseGateway
+from src.database.repositories.product import ProductRepostory
 from src.database.converter import from_model_to_dto, from_list_model_to_list_dto
 
 
@@ -13,7 +13,7 @@ class ProductService(BaseGateway):
         self._repository = repository
 
     async def create(self, data: ProductSchema) -> Product:
-        product = self._repository.create(**data.model_dump())
+        product = await self._repository.create(**data.model_dump())
         if not product:
             raise ConflictError(f"Product {data.title} is already exists")
 

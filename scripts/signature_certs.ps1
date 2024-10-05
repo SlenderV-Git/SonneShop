@@ -6,9 +6,8 @@ if (-not (Test-Path -Path ".certs")) {
 }
 Set-Location .certs
 
-& openssl genrsa -out jwt_private.pem 2048
-& openssl rsa -in jwt_private.pem -outform PEM -pubout -out jwt_public.pem
+& openssl genpkey -algorithm RSA -out signature_private.pem -pkeyopt rsa_keygen_bits:2048
 
 Set-Location ..
 
-Write-Host 'The jwt keys were successfully created'
+Write-Host 'The signature keys were successfully created'

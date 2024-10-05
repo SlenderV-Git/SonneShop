@@ -62,6 +62,12 @@ class JWTSettings:
     reflesh_token_expiration: Final[int] = 9000
 
 
+class SignatureSettings:
+    private_key: Final[bytes] = (
+        get_root_dir_path() / ".certs" / "signature_private.pem"
+    ).read_text()
+
+
 class RedisSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
@@ -90,3 +96,7 @@ def get_jwt_settings() -> JWTSettings:
 
 def get_redis_settings() -> RedisSettings:
     return RedisSettings()
+
+
+def get_signature_settings() -> SignatureSettings:
+    return SignatureSettings()

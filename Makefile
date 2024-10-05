@@ -44,3 +44,9 @@ create-certs-windows:
 
 create-certs-unix:
 	bash ./scripts/certs.sh
+
+create-signature-windows:
+	powershell ./scripts/signature_certs.ps1
+
+create-signature-unix:
+	bash ./scripts/signature_certs.sh
