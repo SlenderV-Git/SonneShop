@@ -1,11 +1,5 @@
 from src.common.exceptions.services import NotFoundError
-from src.common.dto.account import (
-    Account,
-    Balance,
-    AccountBalanceQuery,
-    DeleteAccountQuery,
-    AccountReplenishmentQuery,
-)
+from src.common.dto.account import Account, Balance
 from src.common.interfaces.gateway import BaseGateway
 from src.database.repositories.account import AccountRepository
 from src.database.converter import from_model_to_dto
