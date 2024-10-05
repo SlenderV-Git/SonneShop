@@ -6,6 +6,7 @@ from src.database.repositories import (
     UserRepository,
     AccountRepository,
     ProductRepostory,
+    TransactionRepostory,
 )
 
 
@@ -22,6 +23,9 @@ class DBGateway(BaseGateway):
 
     def product(self):
         return self._init_repo(ProductRepostory)
+
+    def transaction(self):
+        return self._init_repo(TransactionRepostory)
 
     def _init_repo(self, cls: Type[RepositoryType]) -> RepositoryType:
         return cls(self.manager.session)

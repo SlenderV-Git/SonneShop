@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 
 
+class Transaction(BaseModel):
+    amount: int
+    account_id: int
+
+
 class PaymentData(BaseModel):
     transaction_id: int
     user_id: int

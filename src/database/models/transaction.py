@@ -11,6 +11,7 @@ class TransactionModel(ModelWithIDMixin, ModelWithTimeMixin, Base):
     amount: Mapped[int] = mapped_column(nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
+    approved: Mapped[bool] = mapped_column(default=False)
 
     account: Mapped["AccountModel"] = relationship(back_populates="transactions")  # type: ignore # noqa: F821
     user: Mapped["UserModel"] = relationship(back_populates="transactions")  # type: ignore # noqa: F821
