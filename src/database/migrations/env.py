@@ -12,15 +12,14 @@ from alembic import context
 # root = os.path.join(os.path.dirname(base_path), 'SonneShop')
 # sys.path.append(root)
 
-from src.core.settings import get_db_settings
-from src.database.models.base.core import Base
-from src.database.models import (
+from core.settings import get_db_settings
+from database.models.base.core import Base
+from database.models import (
     UserModel,  # noqa: F401
     AccountModel,  # noqa: F401
     ProductModel,  # noqa: F401
     TransactionModel,  # noqa: F401
 )
-
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

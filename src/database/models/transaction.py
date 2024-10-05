@@ -8,7 +8,9 @@ from src.database.models.mixins import ModelWithIDMixin, ModelWithTimeMixin
 class TransactionModel(ModelWithIDMixin, ModelWithTimeMixin, Base):
     __tablename__ = "transaction"
 
-    credit_amount: Mapped[int] = mapped_column(nullable=False)
+    amount: Mapped[int] = mapped_column(nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     account_id: Mapped[int] = mapped_column(ForeignKey("account.id"))
 
-    account: Mapped["AccountModel"] = relationship(back_populates="transactions")  # type: ignore # noqa: F821
+    account: Mapped["AccountModel"] = relationship(back_populates="transaction")  # type: ignore # noqa: F821
+    user: Mapped["UserModel"] = relationship(back_populates="transaction")  # type: ignore # noqa: F821
