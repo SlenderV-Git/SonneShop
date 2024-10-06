@@ -1,9 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 
 class Transaction(BaseModel):
     amount: int
     account_id: int
+
+
+class PaymentUrl(BaseModel):
+    url: HttpUrl
 
 
 class TransactionSchema(Transaction):
