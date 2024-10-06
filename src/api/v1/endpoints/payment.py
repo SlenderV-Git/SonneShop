@@ -14,6 +14,8 @@ from src.common.dto.transaction import (
     ApprovePaymentQuery,
     Transaction,
     PaymentUrl,
+    TransactionsResponse,
+    SelectTransactionsQuery,
 )
 
 payment_router = APIRouter(tags=["payment"])
@@ -48,3 +50,14 @@ async def approve_payment(
 ) -> Transaction:
     transaction = await mediator.send(body, crypto_hasher=crypto_hasher)
     return OkResponse(transaction)
+
+
+@payment_router.get(
+    "/transactions", response_model=TransactionsResponse, status_code=status.HTTP_200_OK
+)
+async def get_all_transactions(
+    mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    user: Annotated[User, Depends(Authorization())],
+) -> OkResponse[TransactionsResponse]:
+    transactions = await mediator.send(SelectTransactionsQuery(user_id=user.id))
+    return OkResponse(transactions)

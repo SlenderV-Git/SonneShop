@@ -16,7 +16,7 @@ from src.services.security.jwt_token import TokenJWT
 class Login:
     async def __call__(
         self,
-        login_data: Annotated[LoginShema, Depends(LoginShema)],
+        login_data: LoginShema,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
         cache: Annotated[RedisClient, Depends(Stub(RedisClient))],

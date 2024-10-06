@@ -7,14 +7,20 @@ from src.api.common.responses import OkResponse
 from src.services.security.argon_hasher import Argon2
 from src.api.common.mediator.mediator import CommandMediator
 from src.api.common.providers.stub import Stub
-from src.common.dto import User, UserSchema, SelectUserQuery, UpdateUserQuery
+from src.common.dto import (
+    User,
+    UserSchema,
+    SelectUserQuery,
+    UpdateUserQuery,
+    UserResponse,
+)
 
 user_router = APIRouter(tags=["user"])
 
 
 @user_router.post(
     "/reg",
-    response_model=User,
+    response_model=UserResponse,
     status_code=status.HTTP_201_CREATED,
 )
 async def user_reg_router(
@@ -22,7 +28,7 @@ async def user_reg_router(
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
     hasher: Annotated[Argon2, Depends(Stub(Argon2))],
 ):
-    user: User = await mediator.send(body, hasher=hasher)
+    user: UserResponse = await mediator.send(body, hasher=hasher)
     return OkResponse(user, status_code=status.HTTP_201_CREATED)
 
 

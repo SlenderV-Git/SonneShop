@@ -34,7 +34,7 @@ class Authorization(SecurityBase):
 
     async def verify_refresh(
         self,
-        body: Annotated[Fingerprint, Depends(Fingerprint)],
+        body: Fingerprint,
         *,
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],

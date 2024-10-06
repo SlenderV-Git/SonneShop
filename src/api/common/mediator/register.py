@@ -4,6 +4,7 @@ from typing import (
     Callable,
     Mapping,
     Protocol,
+    Sequence,
     Type,
     Union,
     get_args,
@@ -25,6 +26,7 @@ from src.api.v1.handlers.command import (
     AccountReplenishmentCommand,
     PaymentApproveCommand,
     PaymentCreateCommand,
+    GetPaymentCommand,
 )
 
 from src.common.dto import UserSchema
@@ -42,6 +44,8 @@ from src.common.dto.transaction import (
     CreatePaymentQuery,
     ApprovePaymentQuery,
     Transaction,
+    SelectTransactionsQuery,
+    TransactionWithStatus,
 )
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
@@ -107,6 +111,12 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: ApprovePaymentQuery
     ) -> AwaitableProxy[PaymentApproveCommand, Transaction]:
+        ...
+
+    @overload
+    def send(
+        self, query: SelectTransactionsQuery
+    ) -> AwaitableProxy[GetPaymentCommand, Sequence[TransactionWithStatus]]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol

@@ -1,6 +1,10 @@
 from typing import Sequence
 from src.common.exceptions.services import NotFoundError
-from src.common.dto.transaction import Transaction, TransactionSchema
+from src.common.dto.transaction import (
+    Transaction,
+    TransactionSchema,
+    TransactionWithStatus,
+)
 from src.common.interfaces.gateway import BaseGateway
 from src.database.repositories.transaction import TransactionRepostory
 from src.database.converter import from_model_to_dto, from_list_model_to_list_dto
@@ -27,6 +31,6 @@ class TransactionService(BaseGateway):
 
     async def get_all(
         self, user_id: int, offset: int = None, limit: int = None
-    ) -> Sequence[Transaction]:
+    ) -> Sequence[TransactionWithStatus]:
         transactions = await self._repository.get_all(user_id, offset, limit)
-        return from_list_model_to_list_dto(transactions, Transaction)
+        return from_list_model_to_list_dto(transactions, TransactionWithStatus)

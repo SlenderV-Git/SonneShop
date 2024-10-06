@@ -40,6 +40,10 @@ class User(DTO):
     login: str
 
 
+class UserResponse(DTO):
+    login: str
+
+
 class SelectUserQuery(DTO):
     id: Optional[int] = None
     login: Optional[str] = None

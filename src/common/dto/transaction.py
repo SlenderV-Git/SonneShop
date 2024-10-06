@@ -6,6 +6,14 @@ class Transaction(BaseModel):
     account_id: int
 
 
+class TransactionWithStatus(Transaction):
+    approved: bool
+
+
+class TransactionsResponse(BaseModel):
+    transactions: list[TransactionWithStatus]
+
+
 class PaymentUrl(BaseModel):
     url: HttpUrl
 

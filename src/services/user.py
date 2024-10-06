@@ -1,5 +1,5 @@
 from typing import Any, overload
-from src.common.dto.user import User, UserSchema
+from src.common.dto.user import User, UserSchema, UserResponse
 from src.common.exceptions.services import ConflictError, NotFoundError
 from src.common.interfaces.gateway import BaseGateway
 from src.common.interfaces.hasher import AbstractHasher
@@ -13,7 +13,7 @@ class UserService(BaseGateway):
     def __init__(self, repository: UserRepository) -> None:
         self._repository = repository
 
-    async def create(self, data: UserSchema, hasher: AbstractHasher) -> User:
+    async def create(self, data: UserSchema, hasher: AbstractHasher) -> UserResponse:
         data.password = hasher.hash_password(data.password)
 
         user = await self._repository.create(**data.model_dump())
@@ -21,7 +21,7 @@ class UserService(BaseGateway):
         if not user:
             raise ConflictError(f"User with login {data.login} is already exists")
 
-        return from_model_to_dto(user, User)
+        return from_model_to_dto(user, UserResponse)
 
     @overload
     async def get_one(self, *, login: str) -> User:

@@ -6,7 +6,7 @@ from .account import (
     AccountCreateCommand,
     AccountReplenishmentCommand,
 )
-from .payment import PaymentApproveCommand, PaymentCreateCommand
+from .payment import PaymentApproveCommand, PaymentCreateCommand, GetPaymentCommand
 
 __all__ = (
     UserSelectCommand,
@@ -19,4 +19,5 @@ __all__ = (
     AccountReplenishmentCommand,
     PaymentApproveCommand,
     PaymentCreateCommand,
+    GetPaymentCommand,
 )
