@@ -16,7 +16,9 @@ class SignatureHasher:
         return message_hash.hexdigest()
 
     def verify(self, data: PaymentDataWithSignature):
-        return data.signature == self._hash_message(data).hexdigest()
+        signature = self._hash_message(data).hexdigest()
+        print(data, signature)
+        return data.signature == signature
 
 
 def get_signature_hasher():

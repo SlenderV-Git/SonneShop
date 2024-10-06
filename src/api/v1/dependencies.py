@@ -1,6 +1,9 @@
 from typing import Literal, Optional
 from fastapi import FastAPI
 
+from src.services.payment.base import BasePaymentsProtocol
+from src.services.payment.stub import get_example_payment_client
+from src.services.security.crypto_hasher import SignatureHasher, get_signature_hasher
 from src.services.gateway import ServicesGateway
 from src.api.common.mediator.mediator import CommandMediator
 from src.services.factory import create_service_gateway_factory
@@ -35,6 +38,8 @@ def init_dependencies(
     db_factory = create_database_factory(TransactionManager, session)
     service_factory = create_service_gateway_factory(db_factory)
     hasher = get_argon2_hasher()
+    crypto_hasher = get_signature_hasher()
+    payment_client = get_example_payment_client()
 
     redis_client = (
         RedisClient.from_url(redis_settings.get_url)
@@ -54,6 +59,8 @@ def init_dependencies(
         hasher=hasher,
     )
 
+    app.dependency_overrides[BasePaymentsProtocol] = singleton(payment_client)
+    app.dependency_overrides[SignatureHasher] = singleton(crypto_hasher)
     app.dependency_overrides[CommandMediator] = singleton(mediator)
     app.dependency_overrides[ServicesGateway] = service_factory
     app.dependency_overrides[DBGateway] = db_factory

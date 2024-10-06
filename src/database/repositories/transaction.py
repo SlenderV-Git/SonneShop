@@ -18,7 +18,8 @@ class TransactionRepostory(BaseRepository):
 
     async def update(self, transaction_id: int, approved: bool) -> TransactionModel:
         condition = self.model.id == transaction_id
-        return await self._crud.update(condition, approved=approved)
+        approve = self.model.approved != approved
+        return await self._crud.update(condition, approve, approved=approved)
 
     async def get_all(
         self, user_id: int, offset: int = None, limit: int = None

@@ -25,7 +25,9 @@ class AccountService(BaseGateway):
 
         return from_model_to_dto(account, Balance)
 
-    async def replenish(self, user_id: int, account_id: int, amount: int) -> Balance:
+    async def replenish(
+        self, user_id: int, account_id: int, amount: int, **kw
+    ) -> Balance:
         account = await self._repository.update(
             user_id=user_id, account_id=account_id, amount=amount
         )

@@ -12,6 +12,7 @@ from typing import (
     get_type_hints,
     overload,
 )
+from pydantic import HttpUrl
 
 from src.api.v1.handlers.command import (
     UserSelectCommand,
@@ -22,6 +23,8 @@ from src.api.v1.handlers.command import (
     DeleteAccountCommand,
     AccountCreateCommand,
     AccountReplenishmentCommand,
+    PaymentApproveCommand,
+    PaymentCreateCommand,
 )
 
 from src.common.dto import UserSchema
@@ -34,6 +37,11 @@ from src.common.dto.account import (
     AllAccountsBalanceQuery,
     AccountCreateQuery,
     AccountReplenishmentQuery,
+)
+from src.common.dto.transaction import (
+    CreatePaymentQuery,
+    ApprovePaymentQuery,
+    Transaction,
 )
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
@@ -87,6 +95,18 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: DeleteAccountQuery
     ) -> AwaitableProxy[DeleteAccountCommand, Account]:
+        ...
+
+    @overload
+    def send(
+        self, query: CreatePaymentQuery
+    ) -> AwaitableProxy[PaymentCreateCommand, HttpUrl]:
+        ...
+
+    @overload
+    def send(
+        self, query: ApprovePaymentQuery
+    ) -> AwaitableProxy[PaymentApproveCommand, Transaction]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol

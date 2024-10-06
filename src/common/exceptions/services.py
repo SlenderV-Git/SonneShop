@@ -12,3 +12,11 @@ class AttributeNotSpecifiedError(Exception):
 
 class ServiceNotImplementedError(Exception):
     pass
+
+
+class InvalidSignatureError(Exception):
+    pass
+
+
+class PaymentError(Exception):
+    pass
