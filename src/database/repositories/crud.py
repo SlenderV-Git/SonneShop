@@ -1,6 +1,7 @@
-from typing import Any, Mapping, Sequence, Type
+from collections import defaultdict
+from typing import Any, Mapping, Optional, Sequence, Type
 
-from sqlalchemy import CursorResult, delete, insert, select, update
+from sqlalchemy import CursorResult, case, delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.common.interfaces.crud import AbstractCrudRepository
@@ -38,6 +39,34 @@ class CrudRepository(AbstractCrudRepository):
 
     async def update_many(self, data: Sequence[Mapping[str, Any]]) -> CursorResult[Any]:
         return await self._session.execute(update(self.model), data)
+
+    async def bulk_update_with_summ(
+        self,
+        data: Sequence[Mapping[str, Any]],
+        update_field: str,
+        key_field: Optional[str] = "id",
+    ) -> CursorResult[Any]:
+
+        grouped_data = defaultdict(lambda: 0)
+        for record in data:
+            grouped_data[record[key_field]] += record[update_field]
+
+        stmt = (
+            update(self.model)
+            .where(getattr(self.model, key_field).in_(grouped_data.keys()))
+            .values(
+                **{
+                    update_field: case(
+                        {
+                            key: getattr(self.model, update_field) + value
+                            for key, value in grouped_data.items()
+                        },
+                        value=getattr(self.model, key_field),
+                    )
+                }
+            )
+        )
+        return await self._session.execute(stmt)
 
     async def delete(self, *args: Any) -> ModelType | None:
         stmt = delete(self.model).where(*args).returning(self.model)

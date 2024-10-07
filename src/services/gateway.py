@@ -1,6 +1,13 @@
 from src.common.interfaces.gateway import BaseGateway
 from src.database.gateway import DBGateway
-from src.services import UserService, AccountService, ProductService, TransactionService
+from src.services import (
+    UserService,
+    AccountService,
+    ProductService,
+    TransactionService,
+    WarehouseService,
+    StockLogService,
+)
 
 
 class ServicesGateway(BaseGateway):
@@ -21,3 +28,9 @@ class ServicesGateway(BaseGateway):
 
     def transaction(self) -> TransactionService:
         return TransactionService(repository=self._database.transaction())
+
+    def warehouse(self) -> WarehouseService:
+        return WarehouseService(repository=self._database.warehouse())
+
+    def stock_log(self) -> StockLogService:
+        return StockLogService(repository=self._database.stock_log())
