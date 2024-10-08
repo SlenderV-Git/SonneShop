@@ -27,7 +27,13 @@ from .account import (
     AccountCreateQuery,
 )
 from .warehouse import ConductInventoryWarehouse
-from .stock_log import UpdateProductStock, GetProductMovement
+from .stock_log import (
+    UpdateProductStock,
+    GetProductMovement,
+    StockOperation,
+    Stock,
+    ConductMassUpdateStockpile,
+)
 
 __all__ = (
     UserSchema,
@@ -57,4 +63,7 @@ __all__ = (
     UpdateProductStock,
     GetProductMovement,
     ConductInventoryWarehouse,
+    StockOperation,
+    Stock,
+    ConductMassUpdateStockpile,
 )

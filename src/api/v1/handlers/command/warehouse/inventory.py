@@ -14,5 +14,7 @@ class InventoryWarehouseCommand(Command[ConductInventoryWarehouse, Warehouse]):
         self, query: ConductInventoryWarehouse, **kwargs: Any
     ) -> Warehouse:
         async with self._gateway:
-            products = self._gateway.warehouse().get_all(query.limit, query.offset)
+            products = await self._gateway.warehouse().get_all(
+                query.limit, query.offset
+            )
             return Warehouse(products=products)

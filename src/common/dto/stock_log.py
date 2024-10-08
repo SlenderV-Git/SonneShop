@@ -1,3 +1,4 @@
+from typing import Sequence
 from pydantic import BaseModel
 
 from src.common.enum.operation import OperationType
@@ -14,7 +15,7 @@ class Stock(BaseModel):
 
 
 class ConductMassUpdateStockpile(BaseModel):
-    products: StockOperation
+    products: Sequence[StockOperation]
 
 
 class AddProductsqQuery(Stock):

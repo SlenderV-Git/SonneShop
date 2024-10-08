@@ -1,6 +1,6 @@
 from typing import Any
 from src.api.v1.handlers.command.base import Command
-from src.common.dto.product import GetAllProductsQuery, Product
+from src.common.dto.product import GetAllProductsQuery, Product, Products
 from src.services.gateway import ServicesGateway
 
 
@@ -12,4 +12,7 @@ class GetAllProductsCommand(Command[GetAllProductsQuery, Product]):
 
     async def execute(self, query: GetAllProductsQuery, **kwargs: Any) -> Product:
         async with self._gateway:
-            return await self._gateway.product().get_all()
+            products = await self._gateway.product().get_all(
+                limit=query.limit, offset=query.offset
+            )
+            return Products(products=products)

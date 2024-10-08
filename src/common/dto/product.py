@@ -1,3 +1,4 @@
+from typing import Optional, Sequence
 from src.common.dto.base import DTO
 
 
@@ -15,6 +16,10 @@ class Product(ProductSchema, ProductId):
     pass
 
 
+class Products(DTO):
+    products: Sequence[Product]
+
+
 class CreateProductQuery(ProductSchema):
     pass
 
@@ -28,7 +33,8 @@ class GetProductQuery(ProductId):
 
 
 class GetAllProductsQuery(DTO):
-    pass
+    limit: Optional[int | None] = None
+    offset: Optional[int | None] = None
 
 
 class DeleteProductQuery(ProductId):
