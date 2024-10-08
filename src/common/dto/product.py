@@ -7,5 +7,29 @@ class ProductSchema(DTO):
     price: int
 
 
-class Product(ProductSchema):
+class ProductId(DTO):
     id: int
+
+
+class Product(ProductSchema, ProductId):
+    pass
+
+
+class CreateProductQuery(ProductSchema):
+    pass
+
+
+class UpdateProductQuery(ProductSchema, ProductId):
+    pass
+
+
+class GetProductQuery(ProductId):
+    pass
+
+
+class GetAllProductsQuery(DTO):
+    pass
+
+
+class DeleteProductQuery(ProductId):
+    pass

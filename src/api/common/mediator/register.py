@@ -27,6 +27,7 @@ from src.api.v1.handlers.command import (
     PaymentApproveCommand,
     PaymentCreateCommand,
     GetPaymentCommand,
+    AddProductsCommand,
 )
 
 from src.common.dto import UserSchema
@@ -47,6 +48,7 @@ from src.common.dto.transaction import (
     SelectTransactionsQuery,
     TransactionWithStatus,
 )
+from src.common.dto.stock_log import AddProductsqQuery, Stock
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
 from .proxy import AwaitableProxy, CommandType
@@ -117,6 +119,12 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: SelectTransactionsQuery
     ) -> AwaitableProxy[GetPaymentCommand, Sequence[TransactionWithStatus]]:
+        ...
+
+    @overload
+    def send(
+        self, query: AddProductsqQuery
+    ) -> AwaitableProxy[AddProductsCommand, Stock]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol

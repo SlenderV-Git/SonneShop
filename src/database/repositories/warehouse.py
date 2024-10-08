@@ -1,4 +1,4 @@
-from typing import Optional, Sequence, Type
+from typing import Optional, Sequence, Tuple, Type
 
 from sqlalchemy import select
 
@@ -41,7 +41,9 @@ class WarehouseRepository(BaseRepository):
             products, update_field="remaining", key_field="product_id"
         )
 
-    async def get_all(self, limit: Optional[int] = None, offset: Optional[int] = None):
+    async def get_all(
+        self, limit: Optional[int] = None, offset: Optional[int] = None
+    ) -> Sequence[Tuple[WarehouseModel, ProductModel]]:
         stmt = (
             select(self.model, ProductModel)
             .join(self.model, ProductModel.id == self.model.product_id)
@@ -49,3 +51,6 @@ class WarehouseRepository(BaseRepository):
             .limit(limit)
         )
         return (await self._session.execute(stmt)).merge()
+
+    async def delete(self, product_id: int) -> Optional[WarehouseModel]:
+        return await self._crud.delete(product_id=product_id)

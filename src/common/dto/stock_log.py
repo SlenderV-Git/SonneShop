@@ -10,4 +10,20 @@ class StockOperation(BaseModel):
 
 
 class Stock(BaseModel):
-    operations: StockOperation
+    operations: list[StockOperation]
+
+
+class ConductMassUpdateStockpile(BaseModel):
+    products: StockOperation
+
+
+class AddProductsqQuery(Stock):
+    pass
+
+
+class UpdateProductStock(StockOperation):
+    pass
+
+
+class GetProductMovement(BaseModel):
+    product_id: int

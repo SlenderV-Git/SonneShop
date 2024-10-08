@@ -16,6 +16,13 @@ class StockLogService(BaseGateway):
             await self._repository.create(operation), StockOperation
         )
 
+    async def create_many(
+        self, operations: Sequence[StockOperation]
+    ) -> Sequence[StockOperation]:
+        return from_list_model_to_list_dto(
+            await self._repository.create_many(operations), StockOperation
+        )
+
     async def get_product_logs(
         self, product_id: int, offset: Optional[int] = None, limit: Optional[int] = None
     ) -> Sequence[StockOperation]:

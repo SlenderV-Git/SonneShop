@@ -28,7 +28,7 @@ class CrudRepository(AbstractCrudRepository):
         return (await self._session.scalars(stmt, kwargs)).first()
 
     async def insert_many(
-        self, **kwargs: Sequence[Mapping[str, Any]]
+        self, kwargs: Sequence[Mapping[str, Any]]
     ) -> Sequence[ModelType] | None:
         stmt = insert(self.model).returning(self.model)
         return (await self._session.scalars(stmt, kwargs)).all()

@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Optional, Sequence
 from pydantic import BaseModel
 
 
@@ -14,4 +14,9 @@ class ProductDTO(ProductStock):
 
 
 class Warehouse(BaseModel):
-    products: Sequence[ProductStock]
+    products: Sequence[ProductDTO]
+
+
+class ConductInventoryWarehouse(BaseModel):
+    limit: Optional[int | None] = None
+    offset: Optional[int | None] = None
