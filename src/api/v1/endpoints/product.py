@@ -53,7 +53,7 @@ async def get_all_products(
     return OkResponse(products)
 
 
-@product_router.patch("/update", response_model=Product, status_code=status.HTTP_200_OK)
+@product_router.put("/update", response_model=Product, status_code=status.HTTP_200_OK)
 async def update_product_router(
     product: Product,
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
