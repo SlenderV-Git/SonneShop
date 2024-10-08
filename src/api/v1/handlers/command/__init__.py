@@ -8,6 +8,14 @@ from .account import (
 )
 from .payment import PaymentApproveCommand, PaymentCreateCommand, GetPaymentCommand
 from .stock_log import AddProductsCommand
+from .product import (
+    ProductCreateCommand,
+    GetProductCommand,
+    ProductDeleteCommand,
+    GetAllProductsCommand,
+    UpdateProductCommand,
+)
+from .warehouse import InventoryWarehouseCommand
 
 __all__ = (
     UserSelectCommand,
@@ -22,4 +30,10 @@ __all__ = (
     PaymentCreateCommand,
     GetPaymentCommand,
     AddProductsCommand,
+    ProductCreateCommand,
+    GetProductCommand,
+    ProductDeleteCommand,
+    GetAllProductsCommand,
+    UpdateProductCommand,
+    InventoryWarehouseCommand,
 )

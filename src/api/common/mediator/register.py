@@ -28,6 +28,12 @@ from src.api.v1.handlers.command import (
     PaymentCreateCommand,
     GetPaymentCommand,
     AddProductsCommand,
+    ProductCreateCommand,
+    GetProductCommand,
+    ProductDeleteCommand,
+    GetAllProductsCommand,
+    UpdateProductCommand,
+    InventoryWarehouseCommand,
 )
 
 from src.common.dto import UserSchema
@@ -49,6 +55,15 @@ from src.common.dto.transaction import (
     TransactionWithStatus,
 )
 from src.common.dto.stock_log import AddProductsqQuery, Stock
+from src.common.dto.warehouse import ConductInventoryWarehouse, Warehouse
+from src.common.dto.product import (
+    GetAllProductsQuery,
+    GetProductQuery,
+    UpdateProductQuery,
+    DeleteProductQuery,
+    CreateProductQuery,
+    Product,
+)
 from src.common.interfaces.hasher import AbstractHasher
 from src.api.v1.handlers.command.base import QT, RT, Command, CommandProtocol
 from .proxy import AwaitableProxy, CommandType
@@ -125,6 +140,42 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: AddProductsqQuery
     ) -> AwaitableProxy[AddProductsCommand, Stock]:
+        ...
+
+    @overload
+    def send(
+        self, query: CreateProductQuery
+    ) -> AwaitableProxy[ProductCreateCommand, Product]:
+        ...
+
+    @overload
+    def send(
+        self, query: GetProductQuery
+    ) -> AwaitableProxy[GetProductCommand, Product]:
+        ...
+
+    @overload
+    def send(
+        self, query: GetAllProductsQuery
+    ) -> AwaitableProxy[GetAllProductsCommand, Product]:
+        ...
+
+    @overload
+    def send(
+        self, query: DeleteProductQuery
+    ) -> AwaitableProxy[ProductDeleteCommand, Product]:
+        ...
+
+    @overload
+    def send(
+        self, query: UpdateProductQuery
+    ) -> AwaitableProxy[UpdateProductCommand, Stock]:
+        ...
+
+    @overload
+    def send(
+        self, query: ConductInventoryWarehouse
+    ) -> AwaitableProxy[InventoryWarehouseCommand, Warehouse]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol
