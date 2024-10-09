@@ -9,3 +9,8 @@ REDIS_PORT=6379
 REDIS_PASSWORD='redis_password'
 REDIS_USER='redis_user'
 REDIS_USER_PASSWORD='redis_user_password'
+
+ELASTIC_HOST='elastic'
+ELASTIC_PORT=9200
+ELASTIC_PASSWORD='elastic_password'
+ELASTIC_LOG_INDEX='logs_index'

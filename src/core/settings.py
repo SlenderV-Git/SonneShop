@@ -86,6 +86,21 @@ class RedisSettings(BaseSettings):
         return f"redis://{self.PASSWORD}@{self.HOST}:{self.PORT}"
 
 
+class ElasticSettings(BaseSettings):
+    root_dir_path: DirectoryPath = get_root_dir_path()
+    model_config = SettingsConfigDict(
+        env_file=f"{root_dir_path}/backend.env",
+        env_file_encoding="utf-8",
+        env_prefix="ELASTIC_",
+        extra="ignore",
+    )
+
+    HOST: str
+    PORT: int
+    PASSWORD: str
+    LOG_INDEX: str
+
+
 def get_db_settings() -> DatabaseSettings:
     return DatabaseSettings()
 
@@ -100,3 +115,7 @@ def get_redis_settings() -> RedisSettings:
 
 def get_signature_settings() -> SignatureSettings:
     return SignatureSettings()
+
+
+def get_elastic_settings() -> ElasticSettings:
+    return ElasticSettings()
