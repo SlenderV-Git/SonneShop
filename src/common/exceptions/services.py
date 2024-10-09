@@ -36,3 +36,13 @@ class PaymentError(HTTPException):
         super().__init__(
             detail=message, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+
+class WarehouseError(HTTPException):
+    def __init__(self, detail: str):
+        super().__init__(detail=detail, status_code=status.HTTP_409_CONFLICT)
+
+
+class AccountError(HTTPException):
+    def __init__(self, detail: str):
+        super().__init__(detail=detail, status_code=status.HTTP_409_CONFLICT)

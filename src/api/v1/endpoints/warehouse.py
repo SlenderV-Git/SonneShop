@@ -2,8 +2,9 @@ from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, status
 
+from src.common.dto.stock_log import AddProductsqQuery
 from src.api.v1.handlers.auth.roles import Roles
-from src.common.dto import Status, User, Stock, ConductMassUpdateStockpile
+from src.common.dto import Status, User, Stock
 from src.api.v1.handlers.auth.auth import Authorization
 from src.api.common.responses import OkResponse
 from src.api.common.mediator.mediator import CommandMediator
@@ -37,5 +38,5 @@ async def update_warehouse_router(
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
     _: Annotated[User, Depends(Authorization(Roles.admin))],
 ) -> OkResponse[Status]:
-    await mediator.send(ConductMassUpdateStockpile(products=stock.operations))
+    await mediator.send(AddProductsqQuery(operations=stock.operations))
     return OkResponse(Status(ok=True))

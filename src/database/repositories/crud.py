@@ -38,14 +38,16 @@ class CrudRepository(AbstractCrudRepository):
         return (await self._session.execute(stmt)).scalars().first()
 
     async def update_many(self, data: Sequence[Mapping[str, Any]]) -> CursorResult[Any]:
-        return await self._session.execute(update(self.model), data)
+        return await self._session.execute(
+            update(self.model).returning(self.model), data
+        )
 
     async def bulk_update_with_summ(
         self,
         data: Sequence[Mapping[str, Any]],
         update_field: str,
         key_field: Optional[str] = "id",
-    ) -> CursorResult[Any]:
+    ) -> Sequence[ModelType]:
 
         grouped_data = defaultdict(lambda: 0)
         for record in data:
@@ -65,8 +67,8 @@ class CrudRepository(AbstractCrudRepository):
                     )
                 }
             )
-        )
-        return await self._session.execute(stmt)
+        ).returning(self.model)
+        return (await self._session.execute(stmt)).scalars().all()
 
     async def delete(self, *args: Any) -> ModelType | None:
         stmt = delete(self.model).where(*args).returning(self.model)

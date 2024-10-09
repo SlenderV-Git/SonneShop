@@ -1,10 +1,14 @@
 from typing import Optional, Sequence
 from src.common.enum.operation import OperationType
-from src.common.dto.warehouse import ProductStock, ProductDTO
+from src.common.dto.warehouse import ProductStock, ProductDTO, ProductStockDB
 from src.common.dto.stock_log import StockOperation
 from src.common.interfaces.gateway import BaseGateway
 from src.common.exceptions import NotFoundException
-from src.database.converter import from_model_to_dto, from_many_models_to_list_dto
+from src.database.converter import (
+    from_model_to_dto,
+    from_many_models_to_list_dto,
+    from_list_model_to_list_dto,
+)
 from src.database.repositories.warehouse import WarehouseRepository
 
 
@@ -16,18 +20,20 @@ class WarehouseService(BaseGateway):
 
     async def create(self, product_id: int) -> ProductStock:
         return from_model_to_dto(
-            await self._repository.create(product_id), ProductStock
+            await self._repository.create(product_id), ProductStockDB
         )
 
     async def update_remaining(self, product_id: int, remaining: int) -> ProductStock:
         return from_model_to_dto(
-            await self._repository.update(product_id, remaining), ProductStock
+            await self._repository.update(product_id, remaining), ProductStockDB
         )
 
     async def update_many_remaining(
         self, data: Sequence[ProductStock]
     ) -> Sequence[ProductStock]:
-        return await self._repository.update_many(data)
+        return from_list_model_to_list_dto(
+            await self._repository.update_many(data), ProductStockDB
+        )
 
     async def get_all(
         self, limit: Optional[int] = None, offset: Optional[int] = None
@@ -54,5 +60,4 @@ class WarehouseService(BaseGateway):
             stocks.append(
                 ProductStock(product_id=operation.product_id, remaining=remaining)
             )
-        print(stocks)
         return stocks

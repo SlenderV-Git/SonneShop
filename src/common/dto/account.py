@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
+
+from src.common.exceptions.services import AccountError
 
 
 class Account(BaseModel):
@@ -8,6 +10,12 @@ class Account(BaseModel):
 
 class Balance(BaseModel):
     balance: int
+
+    @model_validator(mode="after")
+    def check_remainings(self) -> int:
+        if self.balance < 0:
+            raise AccountError("Insufficient funds for the transaction")
+        return self
 
 
 class BaseQuery(BaseModel):
