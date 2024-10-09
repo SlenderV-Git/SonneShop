@@ -1,3 +1,4 @@
+from logging import Formatter
 from pathlib import Path
 from typing import Final
 
@@ -99,6 +100,12 @@ class ElasticSettings(BaseSettings):
     PORT: int
     PASSWORD: str
     LOG_INDEX: str
+
+
+class LoggerSettings:
+    formatter: Final[Formatter] = Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s\n"
+    )
 
 
 def get_db_settings() -> DatabaseSettings:
