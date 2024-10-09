@@ -5,11 +5,13 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.openapi.models import HTTPBearer as HTTPBearerModel
 from fastapi.security.base import SecurityBase
 
+from .roles import Roles
+from src.common.exceptions.routers import UnAuthorizedException
 from src.api.common.exceptions import ForbiddenError
 from src.cache.core.client import RedisClient
 from src.common.dto import Fingerprint, TokensExpire, Status
 from src.api.common.providers.stub import Stub
-from src.common.dto.user import User
+from src.database.models import UserModel
 from src.database.gateway import DBGateway
 from src.services.security.jwt_token import TokenJWT
 
@@ -28,9 +30,16 @@ class Authorization(SecurityBase):
         request: Request,
         jwt: Annotated[TokenJWT, Depends(Stub(TokenJWT))],
         database: Annotated[DBGateway, Depends(Stub(DBGateway))],
-    ) -> User:
+    ) -> UserModel:
         token = self._get_token(request)
-        return await self.verify_token(jwt, database, token, "access")
+        user = await self.verify_token(jwt, database, token, "access")
+        return self.check_permissions(user, self._permission)
+
+    def check_permissions(self, user: UserModel, permissions: tuple[Roles]):
+        for permission in permissions:
+            if permission == Roles.admin and not user.is_superuser:
+                raise ForbiddenError("The resource is only available to administrators")
+        return user
 
     async def verify_refresh(
         self,
@@ -78,7 +87,7 @@ class Authorization(SecurityBase):
 
     async def verify_token(
         self, jwt: TokenJWT, database: DBGateway, token: str, token_type: TokenType
-    ) -> User:
+    ) -> UserModel:
         payload = await run_in_threadpool(jwt.verify_jwt_token, token)
         user_id = payload.get("sub")
         token_type = payload.get("type")
@@ -96,7 +105,13 @@ class Authorization(SecurityBase):
 
     def _get_token(self, request: Request) -> str:
         authorization = request.headers.get("authorization")
-        scheme, _, token = authorization.partition(" ")
+        if not authorization:
+            raise UnAuthorizedException("Bearer token not provided")
+        try:
+            scheme, _, token = authorization.partition(" ")
+        except AttributeError:
+            raise UnAuthorizedException("Invalid Bearer token")
+
         if not (authorization and scheme and token):
             raise ForbiddenError("Not authenticated")
         if scheme.lower() != "bearer":

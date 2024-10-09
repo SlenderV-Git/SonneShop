@@ -1,6 +1,10 @@
-class CustomException(Exception):
-    def __init__(self, message: str):
+from fastapi import HTTPException, status
+
+
+class CustomException(HTTPException):
+    def __init__(self, message: str, status_code: int):
         self.message = message
+        super().__init__(detail=message, status_code=status_code)
 
     def __str__(self):
         return self.message
@@ -10,12 +14,15 @@ class CustomException(Exception):
 
 
 class UnAuthorizedException(CustomException):
-    pass
+    def __init__(self, message: str):
+        super().__init__(message, status.HTTP_401_UNAUTHORIZED)
 
 
 class ConflictException(CustomException):
-    pass
+    def __init__(self, message: str):
+        super().__init__(message, status.HTTP_409_CONFLICT)
 
 
 class NotFoundException(CustomException):
-    pass
+    def __init__(self, message: str):
+        super().__init__(message, status.HTTP_404_NOT_FOUND)

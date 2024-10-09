@@ -1,4 +1,6 @@
+from sqlalchemy.exc import IntegrityError
 from typing import Any
+from src.common.exceptions.services import ConflictError
 from src.api.v1.handlers.command.base import Command
 from src.common.dto.product import CreateProductQuery, Product
 from src.services.gateway import ServicesGateway
@@ -12,7 +14,10 @@ class ProductCreateCommand(Command[CreateProductQuery, Product]):
 
     async def execute(self, query: CreateProductQuery, **kwargs: Any) -> Product:
         async with self._gateway:
-            await self._gateway._database.manager.create_transaction()
-            product = await self._gateway.product().create(query)
-            await self._gateway.warehouse().create(product.id)
-            return product
+            try:
+                await self._gateway._database.manager.create_transaction()
+                product = await self._gateway.product().create(query)
+                await self._gateway.warehouse().create(product.id)
+                return product
+            except IntegrityError:
+                raise ConflictError("Product is already exists")

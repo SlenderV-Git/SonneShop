@@ -1,22 +1,38 @@
-class NotFoundError(Exception):
-    pass
+from fastapi import HTTPException, status
 
 
-class ConflictError(Exception):
-    pass
+class NotFoundError(HTTPException):
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(detail=message, status_code=status.HTTP_404_NOT_FOUND)
 
 
-class AttributeNotSpecifiedError(Exception):
-    pass
+class ConflictError(HTTPException):
+    def __init__(self, message: str):
+        super().__init__(detail=message, status_code=status.HTTP_409_CONFLICT)
 
 
-class ServiceNotImplementedError(Exception):
-    pass
+class AttributeNotSpecifiedError(HTTPException):
+    def __init__(self, message: str):
+        super().__init__(
+            detail=message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+        )
 
 
-class InvalidSignatureError(Exception):
-    pass
+class ServiceNotImplementedError(HTTPException):
+    def __init__(self, message: str):
+        super().__init__(detail=message, status_code=status.HTTP_501_NOT_IMPLEMENTED)
 
 
-class PaymentError(Exception):
-    pass
+class InvalidSignatureError(HTTPException):
+    def __init__(self, message: str):
+        super().__init__(
+            detail=message, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+        )
+
+
+class PaymentError(HTTPException):
+    def __init__(self, message: str):
+        super().__init__(
+            detail=message, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

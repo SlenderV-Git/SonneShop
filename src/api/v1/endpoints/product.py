@@ -2,6 +2,7 @@ from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, status
 
+from src.api.v1.handlers.auth.roles import Roles
 from src.common.dto.user import User
 from src.api.v1.handlers.auth.auth import Authorization
 from src.api.common.responses import OkResponse
@@ -29,6 +30,7 @@ product_router = APIRouter(tags=["product"])
 async def create_product_router(
     product: ProductSchema,
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    _: Annotated[User, Depends(Authorization(Roles.admin))],
 ) -> OkResponse[Product]:
     product_result = await mediator.send(CreateProductQuery(**product.model_dump()))
     return OkResponse(product_result)
@@ -38,6 +40,7 @@ async def create_product_router(
 async def get_product_router(
     product_id: int,
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    _: Annotated[User, Depends(Authorization(Roles.admin))],
 ) -> OkResponse[Product]:
     product = await mediator.send(GetProductQuery(id=product_id))
     return OkResponse(product)
@@ -46,6 +49,7 @@ async def get_product_router(
 @product_router.get("/all", response_model=Products, status_code=status.HTTP_200_OK)
 async def get_all_products(
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    _: Annotated[User, Depends(Authorization(Roles.admin))],
     limit: Optional[int | None] = None,
     offset: Optional[int | None] = None,
 ) -> OkResponse[Products]:
@@ -57,17 +61,21 @@ async def get_all_products(
 async def update_product_router(
     product: Product,
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    _: Annotated[User, Depends(Authorization(Roles.admin))],
 ) -> OkResponse[Product]:
     product_result = await mediator.send(UpdateProductQuery(**product.model_dump()))
     return OkResponse(product_result)
 
 
 @product_router.delete(
-    "/delete", response_model=Product, status_code=status.HTTP_200_OK
+    "/delete",
+    response_model=Product,
+    status_code=status.HTTP_200_OK,
 )
 async def delete_product_router(
     product_id: int,
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    _: Annotated[User, Depends(Authorization(Roles.admin))],
 ) -> OkResponse[Product]:
     product = await mediator.send(DeleteProductQuery(id=product_id))
     return OkResponse(product)
