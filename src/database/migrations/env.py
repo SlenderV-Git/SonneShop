@@ -14,7 +14,14 @@ from alembic import context
 
 from src.core.settings import get_db_settings
 from src.database.models.base.core import Base
-from src.database.models import *  # noqa: F403
+from src.database.models import (
+    AccountModel,  # noqa: F401
+    ProductModel,  # noqa: F401
+    TransactionModel,  # noqa: F401
+    UserModel,  # noqa: F401
+    WarehouseModel,  # noqa: F401
+    StockLogModel,  # noqa: F401
+)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
