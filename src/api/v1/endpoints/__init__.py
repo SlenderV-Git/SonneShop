@@ -4,6 +4,7 @@ from .user import user_router
 from .payment import payment_router
 from .product import product_router
 from .warehouse import warehouse_router
+from .account import account_router
 
 __all__ = (
     auth_router,
@@ -12,4 +13,5 @@ __all__ = (
     payment_router,
     product_router,
     warehouse_router,
+    account_router,
 )

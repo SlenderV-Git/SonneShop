@@ -1,4 +1,5 @@
 from typing import Any
+from src.common.exceptions.services import AccountError
 from src.api.v1.handlers.command.base import Command
 from src.common.dto.account import AccountCreateQuery, Account
 from src.services.gateway import ServicesGateway
