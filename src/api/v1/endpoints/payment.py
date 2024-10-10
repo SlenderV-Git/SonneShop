@@ -17,6 +17,20 @@ from src.common.dto.transaction import (
     TransactionsResponse,
     SelectTransactionsQuery,
 )
+from src.api.v1.docs.payment import (
+    CREATE_DESCRIPTION,
+    CREATE_RESPONCE,
+    CREATE_SUMMARY,
+    WEBHOOK_DESCRIPTION,
+    WEBHOOK_RESPONCE,
+    WEBHOOK_SUMMARY,
+    TRANSACTION_DESCRIPTION,
+    TRANSACTION_RESPONCE,
+    TRANSACTION_SUMMARY,
+    BUY_RESPONCE,
+    BUY_DESCRIPTION,
+    BUY_SUMMARY,
+)
 
 payment_router = APIRouter(tags=["payment"])
 
@@ -25,6 +39,9 @@ payment_router = APIRouter(tags=["payment"])
     "/create",
     response_model=PaymentUrl,
     status_code=status.HTTP_201_CREATED,
+    response_description=CREATE_RESPONCE,
+    description=CREATE_DESCRIPTION,
+    summary=CREATE_SUMMARY,
 )
 async def create_payment(
     body: Transaction,
@@ -41,7 +58,12 @@ async def create_payment(
 
 
 @payment_router.post(
-    "/webhook", response_model=Transaction, status_code=status.HTTP_202_ACCEPTED
+    "/webhook",
+    response_model=Transaction,
+    status_code=status.HTTP_202_ACCEPTED,
+    response_description=WEBHOOK_RESPONCE,
+    description=WEBHOOK_DESCRIPTION,
+    summary=WEBHOOK_SUMMARY,
 )
 async def approve_payment(
     body: ApprovePaymentQuery,
@@ -53,7 +75,12 @@ async def approve_payment(
 
 
 @payment_router.get(
-    "/transactions", response_model=TransactionsResponse, status_code=status.HTTP_200_OK
+    "/transactions",
+    response_model=TransactionsResponse,
+    status_code=status.HTTP_200_OK,
+    response_description=TRANSACTION_RESPONCE,
+    description=TRANSACTION_DESCRIPTION,
+    summary=TRANSACTION_SUMMARY,
 )
 async def get_all_transactions(
     mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
@@ -64,7 +91,12 @@ async def get_all_transactions(
 
 
 @payment_router.post(
-    "/buy_product", response_model=Balance, status_code=status.HTTP_200_OK
+    "/buy_product",
+    response_model=Balance,
+    status_code=status.HTTP_200_OK,
+    response_description=BUY_RESPONCE,
+    description=BUY_DESCRIPTION,
+    summary=BUY_SUMMARY,
 )
 async def buy_product(
     info: BuyInfo,

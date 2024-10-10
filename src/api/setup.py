@@ -5,21 +5,28 @@ from fastapi import FastAPI
 
 from src.api.v1.setup import init_routers
 from src.api.v1.dependencies import init_dependencies
-from src.core.settings import DatabaseSettings, JWTSettings, RedisSettings
+from src.core.settings import (
+    DatabaseSettings,
+    JWTSettings,
+    RedisSettings,
+    DocumentationSettings,
+)
 
 
 def init_app(
     db_settings: DatabaseSettings,
     jwt_settings: JWTSettings,
     redis_settings: RedisSettings,
-    title: str = "FastAPI",
+    doc_settings: DocumentationSettings,
     docs_url: Optional[str] = "/docs",
     redoc_url: Optional[str] = "/redoc",
 ) -> FastAPI:
     app = FastAPI(
-        title=title,
+        title=doc_settings.TITLE,
         docs_url=docs_url,
         redoc_url=redoc_url,
+        summary=doc_settings.SUMMARY,
+        description=doc_settings.DESCRIPTION,
     )
     init_routers(app)
     init_dependencies(app, db_settings, jwt_settings, redis_settings, app_status="test")

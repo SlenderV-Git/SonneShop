@@ -108,6 +108,19 @@ class LoggerSettings:
     )
 
 
+class DocumentationSettings(BaseSettings):
+    root_dir_path: DirectoryPath = get_root_dir_path()
+    model_config = SettingsConfigDict(
+        env_file=f"{root_dir_path}/backend.env",
+        env_file_encoding="utf-8",
+        env_prefix="DOC_",
+        extra="ignore",
+    )
+    TITLE: str
+    DESCRIPTION: str
+    SUMMARY: str
+
+
 def get_db_settings() -> DatabaseSettings:
     return DatabaseSettings()
 
@@ -126,3 +139,7 @@ def get_signature_settings() -> SignatureSettings:
 
 def get_elastic_settings() -> ElasticSettings:
     return ElasticSettings()
+
+
+def get_documentation_settings() -> DocumentationSettings:
+    return DocumentationSettings()
