@@ -3,7 +3,7 @@ services:
     build: ./src/.
     container_name: backend-service
     environment:
-      - ALEMBIC_CONFIG=/usr/backend_app/src/alembic.ini
+      - ALEMBIC_CONFIG=/usr/backend_app/alembic.ini
     volumes:
       - ./:/usr/backend_app/.
     working_dir: /usr/backend_app/.

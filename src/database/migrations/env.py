@@ -25,6 +25,8 @@ config.set_main_option(
     "sqlalchemy.url", get_db_settings().get_url_str + "?async_fallback=True"
 )
 
+print("sqlalchemy.url", get_db_settings().get_url_str + "?async_fallback=True")
+
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
