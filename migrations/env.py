@@ -19,13 +19,13 @@ from src.database.models import (
     StockLogModel,  # noqa: F401
 )
 
+db_settings = get_db_settings()
+db_settings.HOST = "localhost"
 
 config = context.config
 config.set_main_option(
-    "sqlalchemy.url", get_db_settings().get_url_str + "?async_fallback=True"
+    "sqlalchemy.url", db_settings.get_url_str + "?async_fallback=True"
 )
-
-print("sqlalchemy.url", get_db_settings().get_url_str + "?async_fallback=True")
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
