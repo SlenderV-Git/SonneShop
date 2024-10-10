@@ -14,7 +14,7 @@ def get_root_dir_path() -> Path:
 class DatabaseSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f"{root_dir_path}/backend.env",
+        env_file=f"{root_dir_path}/.env",
         env_file_encoding="utf-8",
         env_prefix="POSTGRES_",
         extra="ignore",
@@ -72,7 +72,7 @@ class SignatureSettings:
 class RedisSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f"{root_dir_path}/backend.env",
+        env_file=f"{root_dir_path}/.env",
         env_file_encoding="utf-8",
         env_prefix="REDIS_",
         extra="ignore",
@@ -90,7 +90,7 @@ class RedisSettings(BaseSettings):
 class ElasticSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f"{root_dir_path}/backend.env",
+        env_file=f"{root_dir_path}/.env",
         env_file_encoding="utf-8",
         env_prefix="ELASTIC_",
         extra="ignore",
@@ -111,7 +111,7 @@ class LoggerSettings:
 class DocumentationSettings(BaseSettings):
     root_dir_path: DirectoryPath = get_root_dir_path()
     model_config = SettingsConfigDict(
-        env_file=f"{root_dir_path}/backend.env",
+        env_file=f"{root_dir_path}/.env",
         env_file_encoding="utf-8",
         env_prefix="DOC_",
         extra="ignore",
