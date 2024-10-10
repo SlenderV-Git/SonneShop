@@ -5,6 +5,7 @@ from .account import (
     DeleteAccountCommand,
     AccountCreateCommand,
     AccountReplenishmentCommand,
+    BuyProductCommand,
 )
 from .payment import PaymentApproveCommand, PaymentCreateCommand, GetPaymentCommand
 from .stock_log import AddProductsCommand

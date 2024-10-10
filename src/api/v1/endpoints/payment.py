@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
-from src.common.dto.user import User
+from src.common.dto import User, Balance, BuyProductQuery, BuyInfo
 from src.services.payment.base import BasePaymentsProtocol
 from src.services.security.crypto_hasher import SignatureHasher
 from src.api.v1.handlers.auth.auth import Authorization
@@ -61,3 +61,15 @@ async def get_all_transactions(
 ) -> OkResponse[TransactionsResponse]:
     transactions = await mediator.send(SelectTransactionsQuery(user_id=user.id))
     return OkResponse(transactions)
+
+
+@payment_router.post(
+    "/buy_product", response_model=Balance, status_code=status.HTTP_200_OK
+)
+async def buy_product(
+    info: BuyInfo,
+    mediator: Annotated[CommandMediator, Depends(Stub(CommandMediator))],
+    user: Annotated[User, Depends(Authorization())],
+) -> OkResponse[Balance]:
+    balance = await mediator.send(BuyProductQuery(user_id=user.id, **info.model_dump()))
+    return OkResponse(balance)

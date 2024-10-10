@@ -1,4 +1,7 @@
 from typing import Optional, Sequence
+
+from pydantic import model_validator
+from src.common.exceptions.services import ValidationError
 from src.common.dto.base import DTO
 
 
@@ -13,7 +16,11 @@ class ProductId(DTO):
 
 
 class Product(ProductSchema, ProductId):
-    pass
+    @model_validator(mode="after")
+    def check_price(self) -> int:
+        if self.price < 0:
+            raise ValidationError("The price of a product cannot be negative")
+        return self
 
 
 class Products(DTO):

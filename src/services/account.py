@@ -32,7 +32,7 @@ class AccountService(BaseGateway):
             user_id=user_id, account_id=account_id, amount=amount
         )
         if not account:
-            raise NotFoundError("Failed to refill. Account not found")
+            raise NotFoundError("Account not found")
 
         return from_model_to_dto(account, Balance)
 

@@ -34,6 +34,7 @@ from src.api.v1.handlers.command import (
     GetAllProductsCommand,
     UpdateProductCommand,
     InventoryWarehouseCommand,
+    BuyProductCommand,
 )
 
 from src.common.dto import UserSchema
@@ -46,6 +47,7 @@ from src.common.dto.account import (
     AllAccountsBalanceQuery,
     AccountCreateQuery,
     AccountReplenishmentQuery,
+    BuyProductQuery,
 )
 from src.common.dto.transaction import (
     CreatePaymentQuery,
@@ -176,6 +178,12 @@ class CommandMediatorProtocol(Protocol):
     def send(
         self, query: ConductInventoryWarehouse
     ) -> AwaitableProxy[InventoryWarehouseCommand, Warehouse]:
+        ...
+
+    @overload
+    def send(
+        self, query: BuyProductQuery
+    ) -> AwaitableProxy[BuyProductCommand, Account]:
         ...
 
     # default one, should leave unchanged at the bottom of the protocol

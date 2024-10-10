@@ -46,3 +46,8 @@ class WarehouseError(HTTPException):
 class AccountError(HTTPException):
     def __init__(self, detail: str):
         super().__init__(detail=detail, status_code=status.HTTP_409_CONFLICT)
+
+
+class ValidationError(HTTPException):
+    def __init__(self, detail: str):
+        super().__init__(detail=detail, status_code=status.HTTP_409_CONFLICT)
