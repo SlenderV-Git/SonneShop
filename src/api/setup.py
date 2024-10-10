@@ -3,7 +3,7 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 
-from src.api.v1.setup import init_routers
+from src.api.v1.setup import init_v1_routers
 from src.api.v1.dependencies import init_dependencies
 from src.core.settings import (
     DatabaseSettings,
@@ -28,7 +28,8 @@ def init_app(
         summary=doc_settings.SUMMARY,
         description=doc_settings.DESCRIPTION,
     )
-    init_routers(app)
+    v1_root_router = init_v1_routers()
+    app.include_router(v1_root_router)
     init_dependencies(app, db_settings, jwt_settings, redis_settings, app_status="test")
 
     return app
