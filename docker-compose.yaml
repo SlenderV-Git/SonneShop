@@ -32,6 +32,8 @@ services:
       volumes: 
         - ./nginx/:/etc/nginx/ 
       restart: always
+      networks:
+      - app-network
 
   db-service:
     image: postgres:latest
@@ -85,8 +87,6 @@ services:
     restart: unless-stopped
     tty: true
     stdin_open: true
-
-
     networks:
       app-network:
 
