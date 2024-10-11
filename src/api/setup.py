@@ -18,10 +18,9 @@ def init_app(
     jwt_settings: JWTSettings,
     redis_settings: RedisSettings,
     doc_settings: DocumentationSettings,
-    docs_url: Optional[str] = "/api/docs",
-    redoc_url: Optional[str] = "/api/redoc",
-    open_api: Optional[str] = "/api/openapi.json",
-    oauth_redirect: Optional[str] = "/api/docs/oauth2-redirect",
+    docs_url: Optional[str] = "/docs",
+    redoc_url: Optional[str] = "/redoc",
+    root_path: Optional[str] = "/api",
 ) -> FastAPI:
     app = FastAPI(
         title=doc_settings.TITLE,
@@ -29,8 +28,7 @@ def init_app(
         redoc_url=redoc_url,
         summary=doc_settings.SUMMARY,
         description=doc_settings.DESCRIPTION,
-        openapi_url=open_api,
-        swagger_ui_oauth2_redirect_url=oauth_redirect,
+        root_path=root_path,
     )
     v1_root_router = init_v1_routers()
     app.include_router(v1_root_router)

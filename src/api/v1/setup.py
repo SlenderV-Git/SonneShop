@@ -12,7 +12,7 @@ from src.api.v1.endpoints import (
 
 
 def init_v1_routers() -> APIRouter:
-    app = APIRouter(prefix="/api/v1")
+    app = APIRouter(prefix="/v1")
 
     app.include_router(account_router, prefix="/bill")
     app.include_router(warehouse_router, prefix="/warehouse")
