@@ -3,7 +3,7 @@ DB_SERVICE = db-service
 REDIS_SERVICE = redis
 
 DC = docker compose
-ENV_PATH = ./backend.env
+ENV_PATH = ./.env
 
 
 build-backend:
