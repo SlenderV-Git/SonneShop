@@ -8,7 +8,7 @@ services:
       - ./:/usr/backend_app/.
     working_dir: /usr/backend_app/.
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     command: bash -c 'alembic upgrade head && python -m src'
     networks:
       - app-network
@@ -22,6 +22,16 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+  
+  nginx: 
+      image: nginx:latest 
+      container_name: nginx 
+      ports: 
+        - "80:80" 
+        - "443:443" 
+      volumes: 
+        - ./nginx/:/etc/nginx/ 
+      restart: always
 
   db-service:
     image: postgres:latest
