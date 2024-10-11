@@ -18,8 +18,8 @@ def init_app(
     jwt_settings: JWTSettings,
     redis_settings: RedisSettings,
     doc_settings: DocumentationSettings,
-    docs_url: Optional[str] = "/docs",
-    redoc_url: Optional[str] = "/redoc",
+    docs_url: Optional[str] = "api/docs",
+    redoc_url: Optional[str] = "api/redoc",
 ) -> FastAPI:
     app = FastAPI(
         title=doc_settings.TITLE,
