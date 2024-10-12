@@ -56,8 +56,6 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_USER=${REDIS_USER}
       - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
-    ports:
-      - "127.0.0.1:6379:6379"
     volumes:
       - ~/opt/redis_data:/data
     deploy:

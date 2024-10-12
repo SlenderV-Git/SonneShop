@@ -6,3 +6,4 @@ testing_*
 .certs
 venv/
 certs/
+frontend/

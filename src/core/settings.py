@@ -84,7 +84,7 @@ class RedisSettings(BaseSettings):
 
     @property
     def get_url(self) -> str:
-        return f"redis://{self.PASSWORD}@{self.HOST}:{self.PORT}"
+        return f"redis://{self.HOST}:{self.PORT}"
 
 
 class ElasticSettings(BaseSettings):
