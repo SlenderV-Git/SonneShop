@@ -96,7 +96,7 @@ class Authorization(SecurityBase):
             raise ForbiddenError("Invalid token")
 
         async with database:
-            user = await database.user().get_one(user_id=user_id)
+            user = await database.user().get_one(user_id=int(user_id))
 
         if not user:
             raise ForbiddenError("Not authenticated")
