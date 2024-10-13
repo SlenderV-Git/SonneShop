@@ -15,7 +15,7 @@ The application is deployed in four Docker containers, managed by Docker Compose
 
 ## Architecture
 
-![[Pasted image 20241013183125.png]]
+![schema](./docs/arhitecture.jpeg)
 
 Nginx proxies requests to the API if they start with `/api`, while the backend operates with the databases. Currently, the following are used:
 - **PostgreSQL** — for data storage.
