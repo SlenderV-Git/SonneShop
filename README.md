@@ -23,8 +23,8 @@ Nginx proxies requests to the API if they start with `/api`, while the backend o
 
 ## Running Locally
 
-1. Install Docker Compose 2.
-2. Install Make utility.
+1. Install Docker Compose v2 ([guide](https://www.linode.com/docs/guides/how-to-use-docker-compose-v2/)).
+2. Install Make utility ([guide](https://itslinuxfoss.com/install-make-ubuntu-22-04/)).
 3. Clone the repository:
     ```bash
     git clone https://github.com/SlenderV-Git/SonneShop
